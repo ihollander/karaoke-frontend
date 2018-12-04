@@ -1,7 +1,7 @@
 function createVideo(containerId, videoId) {
   let youtubeScriptId = 'youtube-api'
   let youtubeScript = document.getElementById(youtubeScriptId)
-  
+
   if (youtubeScript === null) {
     const tag = document.createElement('script')
     const firstScript = document.getElementsByTagName('script')[0]
@@ -26,7 +26,7 @@ function createVideo(containerId, videoId) {
 document.addEventListener('DOMContentLoaded', e => {
   const songList = document.getElementById('song-list')
   const searchForm = document.getElementById('search-form')
-  const player = document.getElementById('player')
+  const player = document.getElementById('overlay')
 
   songList.addEventListener('click', e => {
     if (e.target.dataset.action === "add-to-playlist") {
