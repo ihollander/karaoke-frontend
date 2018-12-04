@@ -41,8 +41,5 @@ document.addEventListener('DOMContentLoaded', e => {
           controller.renderUsers()
         })
       Song.init()
-        .then(() => {
-          controller.renderSongs()
-        })
     })
 })
