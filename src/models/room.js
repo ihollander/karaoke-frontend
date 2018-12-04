@@ -13,9 +13,13 @@ class Room {
   }
 
   static findOrCreate(id) {
-    return Room.adapter.get(id)
-      .then(json => new Room(json))
-      .catch(() => Room.create()) // if not found, create a new room
+    if (id) {
+      return Room.adapter.get(id)
+        .then(json => new Room(json))
+        .catch(() => Room.create()) // if not found, create a new room
+    } else {
+      return Room.create()
+    }
   }
 
   static create() {

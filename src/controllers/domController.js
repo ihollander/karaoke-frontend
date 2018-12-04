@@ -13,6 +13,8 @@ class DOMController {
 
   renderUsers() {
     this.userList.innerHTML = User.render()
+    const selectUser = this.searchForm.querySelector('select[name="user"]')
+    selectUser.innerHTML = User.renderSelectOptions()
   }
 
   renderSongs() {
@@ -29,7 +31,6 @@ class DOMController {
 
   handleUserFormSubmit(e) {
     e.preventDefault()
-    debugger
     User.create({ name: e.target.name.value })
       .then(() => {
         this.renderUsers()
@@ -42,10 +43,13 @@ class DOMController {
       const youtubeSong = YouTubeSearch.find(e.target.dataset.youtubeId)
       const songData = {
         title: youtubeSong.title,
-        youtube_id: youtubeSong.videoId,
-        user_id: 7 // for now...
+        youtube_id: youtubeSong.videoId
       }
+      debugger
       Song.create(songData)
+        .then(song => {
+          Playlist.create({ user_id: this.searchForm.user.value, song_id: song.id })
+        })
         .then(() => {
           this.renderSongs()
         })

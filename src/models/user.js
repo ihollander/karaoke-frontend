@@ -7,21 +7,31 @@ class User {
   }
 
   get songs() {
-    debugger
-    const pl = Playlist.all.filter(p => p.user_id == this.id)
-    return pl.map(pl => pl.song)
+    return Playlist.all.filter(p => p.user_id == this.id).map(pl => pl.song)
   }
 
   render() {
     return `<li class="list-group-item">${this.name}</li>`
   }
 
+  renderSelectOption() {
+    return `<option value="${this.id}">${this.name}</li>`
+  }
+
   static find(id) {
     return this.all.find(u => u.id == id)
   }
 
+  static findBy(key, value) {
+    return this.all.find(a => a[key] == value)
+  }
+
   static render() {
     return this.all.map(r => r.render()).join('')
+  }
+
+  static renderSelectOptions() {
+    return this.all.map(r => r.renderSelectOption()).join('')
   }
 
   static populateFromAPI() {

@@ -1,5 +1,6 @@
 class Playlist {
-  constructor({ user_id, song_id }) {
+  constructor({ id, user_id, song_id }) {
+    this.id = id
     this.user_id = user_id
     this.song_id = song_id
     Playlist.all.push(this)
@@ -23,6 +24,12 @@ class Playlist {
 
   static find(id) {
     return this.all.find(u => u.id == id)
+  }
+
+  static create(playlistObj) {
+    return this.adapter.post(playlistObj)
+      .then(json => new Playlist(json))
+      .catch(console.error)
   }
 
   static populateFromAPI() {

@@ -18,6 +18,10 @@ class Song {
     return this.all.find(u => u.id == id)
   }
 
+  static findBy(key, value) {
+    return this.all.find(a => a[key] == value)
+  }
+
   static populateFromAPI() {
     return this.adapter.getAll()
       .then(json => {
