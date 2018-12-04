@@ -1,3 +1,4 @@
+// to fix...
 function createVideo(containerId, videoId) {
   let youtubeScriptId = 'youtube-api'
   let youtubeScript = document.getElementById(youtubeScriptId)
@@ -5,7 +6,6 @@ function createVideo(containerId, videoId) {
   if (youtubeScript === null) {
     const tag = document.createElement('script')
     const firstScript = document.getElementsByTagName('script')[0]
-
     tag.src = 'https://www.youtube.com/iframe_api'
     tag.id = youtubeScriptId
     firstScript.parentNode.insertBefore(tag, firstScript)
@@ -24,24 +24,25 @@ function createVideo(containerId, videoId) {
 }
 
 document.addEventListener('DOMContentLoaded', e => {
-  const songList = document.getElementById('song-list')
-  const searchForm = document.getElementById('search-form')
-  const player = document.getElementById('player')
+  const currentUrl = new URL(window.location.href)
+  const roomId = currentUrl.searchParams.get("id")
 
-  songList.addEventListener('click', e => {
-    if (e.target.dataset.action === "add-to-playlist") {
-      const youtubeId = e.target.dataset.youtubeId
-      player.innerHTML = youtubeId
-      createVideo('player', youtubeId)
-    }
-  })
-
-  searchForm.addEventListener('submit', e => {
-    e.preventDefault()
-    const searchQuery = e.target.search.value
-    YouTubeSearch.search(searchQuery)
-      .then(() => {
-        songList.innerHTML = YouTubeSearch.renderResults()
-      })
-  })
+  const controller = new DOMController()
+  
+  //create the room when page is loaded
+  Room.findOrCreate(roomId) // findOrCreate to test with sample data
+    .then(() => {
+      Playlist.init()
+        .then(() => {
+          controller.renderPlaylist()
+        })
+      User.init()
+        .then(() => {
+          controller.renderUsers()
+        })
+      Song.init()
+        .then(() => {
+          controller.renderSongs()
+        })
+    })
 })

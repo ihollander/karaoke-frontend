@@ -16,6 +16,10 @@ class YouTubeSearch {
             </div>`
   }
 
+  static find(videoId) {
+    return this.results.find(r => r.videoId == videoId)
+  }
+
   static renderResults() {
     return this.results.map(r => r.render()).join('')
   }
@@ -24,6 +28,7 @@ class YouTubeSearch {
     this.results = [] // reset the results array for each search
     return this.adapter.search(q)
       .then(json => {
+        console.log(json)
         json.items.forEach(item => {
           new YouTubeSearch(item)
         })
