@@ -4,18 +4,22 @@ class Room {
     Room.current = this
   }
 
+  get users() {
+    return User.all
+  }
+
+  get songs() {
+    return Song.all
+  }
+
   static findOrCreate(id) {
     return Room.adapter.get(id)
-      .then(json => {
-        new Room(json)
-      })
-      .catch(r => {
-        return Room.create()
-      })
+      .then(json => new Room(json))
+      .catch(() => Room.create()) // if not found, create a new room
   }
 
   static create() {
-    return Room.adapter.post({})
+    return Room.adapter.post({}) // create new room with no data, can extend
       .then(json => new Room(json))
       .catch(console.error)
   }

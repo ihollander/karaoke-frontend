@@ -1,4 +1,4 @@
-// 
+// to fix...
 function createVideo(containerId, videoId) {
   let youtubeScriptId = 'youtube-api'
   let youtubeScript = document.getElementById(youtubeScriptId)
@@ -24,50 +24,22 @@ function createVideo(containerId, videoId) {
 }
 
 document.addEventListener('DOMContentLoaded', e => {
-  const songList = document.getElementById('song-list')
-  const searchForm = document.getElementById('search-form')
-  const player = document.getElementById('player')
+  const currentUrl = new URL(window.location.href)
+  const roomId = currentUrl.searchParams.get("id")
 
+  const controller = new DOMController()
+  
   //create the room when page is loaded
-  Room.findOrCreate(7) // findOrCreate to test with sample data...
+  Room.findOrCreate(roomId) // findOrCreate to test with sample data
     .then(() => {
-      // setup users and songs APIs
-      User.adapter = new RailsAPIAdapter(`http://localhost:3000/api/v1/rooms/${Room.current.id}/users`)
-      User.populateFromAPI()
+      Playlist.init()
+      User.init()
         .then(() => {
-          console.log(User.all)
+          controller.renderUsers()
         })
-      Song.adapter = new RailsAPIAdapter(`http://localhost:3000/api/v1/rooms/${Room.current.id}/songs`)
-      Song.populateFromAPI()
+      Song.init()
         .then(() => {
-          console.log(Song.all)
+          controller.renderSongs()
         })
     })
-
-  songList.addEventListener('click', e => {
-    if (e.target.dataset.action === "add-to-playlist") {
-      const youtubeId = e.target.dataset.youtubeId
-      const youtubeSong = YouTubeSearch.find(youtubeId)
-      player.innerHTML = youtubeId
-      // createVideo('player', youtubeId)
-      // save song to API and get response
-      // include user
-      const songData = {
-        title: youtubeSong.title,
-        youtube_id: youtubeSong.videoId,
-        user_id: 7
-      }
-      debugger
-      Song.create(songData)
-    }
-  })
-
-  searchForm.addEventListener('submit', e => {
-    e.preventDefault()
-    const searchQuery = e.target.search.value
-    YouTubeSearch.search(searchQuery)
-      .then(() => {
-        songList.innerHTML = YouTubeSearch.renderResults()
-      })
-  })
 })
