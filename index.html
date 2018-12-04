@@ -1,4 +1,145 @@
 <!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Karaoke Room</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<script src="src/config/environment.js"></script>
+<script src="src/adapters/railsAdapter.js"></script>
+<script src="src/adapters/youtubeSearchAdapter.js"></script>
+<script src="src/models/playlist.js"></script>
+<script src="src/models/room.js"></script>
+<script src="src/models/song.js"></script>
+<script src="src/models/user.js"></script>
+<script src="src/models/youtubeSearch.js"></script>
+<script src="src/controllers/domController.js"></script>
+<script src="src/app.js"></script>
+
+
+  <script src="index.js"></script>
+  <script src="youtube/youtubeSearchAPI.js"></script>
+  <script src="youtube/youtubeSearch.js"></script>
+</head>
+
+<header>
+
+<!--
+  <div class='row'>
+    <div class="col-md-3">
+      <ul class="list-group" id="user-list">
+      </ul>
+    </div>
+    <div class='col-md-6'>
+      <div id="player">
+      </div>
+    </div>
+    <div class='col-md-3'>
+      <form id="search-form">
+        <label for="search"></label>
+        <input type="text" name="search" placeholder="Search song or artist">
+        <input type="submit" value="search">
+      </form>
+      <div id="song-list"></div>
+
+    </div>
+  </div> -->
+
+<!--
+  <nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
+    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
+    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
+  </div>
+</nav> -->
+<!-- <div class="tab-content" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">...</div>
+  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
+  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+</div> -->
+<body>
+
+  <div class="overlay"></div>
+  <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+    <source id="player" src="https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4" type="video/mp4">
+  </video>
+  <div class="container h-100">
+    <div class="d-flex text-center h-100">
+      <!-- <div class="my-auto w-100 text-white">
+        <h1 class="display-3">Video Header</h1>
+        <h2>With HTML5 Video and Bootstrap 4</h2>
+      </div> -->
+    </div>
+  </div>
+</header>
+
+<!-- <section class="my-5">
+  <div class="song-list">
+    <div class="row">
+      <div class="col-md-8 mx-auto"> -->
+        <!-- <form id="search-form">
+          <label for="search"></label>
+          <input type="text" name="search" placeholder="Search song or artist">
+          <input type="submit" value="search">
+        </form> -->
+      <!-- </div>
+    </div>
+  </div>
+</section> -->
+
+<section class="my-5">
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="search-tab" data-toggle="tab" href="#search" role="tab" aria-controls="search" aria-selected="true">Search</a>
+    <form id="search-form">
+      <br>
+      <br>
+      <label for="search"></label>
+      <input type="text" name="search" placeholder="Search song or artist">
+      <input type="submit" value="search">
+    </form>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="singers-tab" data-toggle="tab" href="#singers" role="tab" aria-controls="singers" aria-selected="false">Singers</a>
+
+  </li>
+  <li class="nav-item">
+    <!-- <div class="song-list"> -->
+    <a class="nav-link" id="song-list" data-toggle="tab" href="#song" role="tab" aria-controls="song" aria-selected="false">Song</a>
+
+  </li>
+
+</ul>
+</body>
+
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
 <html>
 
 <head>
@@ -6,8 +147,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Page Title</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  
+
   <script src="src/config/environment.js"></script>
   <script src="src/adapters/railsAdapter.js"></script>
   <script src="src/adapters/youtubeSearchAdapter.js"></script>
@@ -18,6 +167,7 @@
   <script src="src/models/youtubeSearch.js"></script>
   <script src="src/controllers/domController.js"></script>
   <script src="src/app.js"></script>
+
 </head>
 
 <body>
@@ -43,18 +193,19 @@
       <form id="search-form">
         <div class="input-group">
           <input class="form-control" type="text" name="search" placeholder="Search song or artist">
-        </div> 
+        </div>
         <div class="input-group">
           <select class="form-control" name="user"></select>
-        </div> 
+        </div>
         <div class="input-group">
           <input class="btn-primary" type="submit" value="Search">
-        </div> 
+        </div>
       </form>
       <div id="song-list"></div>
+
     </div>
   </div>
 
 </body>
 
-</html>
+</html> -->
