@@ -5,6 +5,7 @@ class DOMController {
     this.searchForm = document.getElementById('search-form')
     this.player = document.getElementById('player')
     this.newUserForm = document.getElementById('new-user-form')
+    this.playlist = document.getElementById('playlist')
 
     this.searchForm.addEventListener('submit', this.handleSearchFormSubmit.bind(this))
     this.newUserForm.addEventListener('submit', this.handleUserFormSubmit.bind(this))
@@ -17,8 +18,8 @@ class DOMController {
     selectUser.innerHTML = User.renderSelectOptions()
   }
 
-  renderSongs() {
-    this.songList.innerHTML = Song.render()
+  renderPlaylist() {
+    this.playlist.innerHTML = Playlist.render()
   }
 
   handleSearchFormSubmit(e) {
@@ -45,13 +46,12 @@ class DOMController {
         title: youtubeSong.title,
         youtube_id: youtubeSong.videoId
       }
-      debugger
       Song.create(songData)
         .then(song => {
           Playlist.create({ user_id: this.searchForm.user.value, song_id: song.id })
-        })
-        .then(() => {
-          this.renderSongs()
+            .then(() => {
+              this.renderPlaylist()
+            })
         })
     }
   }

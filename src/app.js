@@ -30,10 +30,12 @@ document.addEventListener('DOMContentLoaded', e => {
   const controller = new DOMController()
   
   //create the room when page is loaded
-  debugger
   Room.findOrCreate(roomId) // findOrCreate to test with sample data
     .then(() => {
       Playlist.init()
+        .then(() => {
+          controller.renderPlaylist()
+        })
       User.init()
         .then(() => {
           controller.renderUsers()

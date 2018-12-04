@@ -6,6 +6,12 @@ class Playlist {
     Playlist.all.push(this)
   }
 
+  render() {
+    return `<li>
+              Song: ${this.song.title} | User: ${this.user.name}
+            </li>`
+  }
+
   get song() {
     return Song.all.find(s => s.id == this.song_id)
   }
@@ -20,6 +26,10 @@ class Playlist {
 
   set user(userObj) {
     this.user_id = userObj.id
+  }
+
+  static render() {
+    return this.all.map(pl => pl.render()).join('')
   }
 
   static find(id) {

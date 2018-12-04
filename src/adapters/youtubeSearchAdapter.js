@@ -12,14 +12,13 @@ const serializeQueryString = function(params) {
 class YouTubeSearchAPIAdapter {
   constructor() {
     this.baseUrl = 'https://www.googleapis.com/youtube/v3/search'
-    this.apiKey = apiKeys.youtube
     this.defaultParams = {
       videoEmbeddable: 'true',
       order: 'relevance',
       part: 'snippet',
       type: 'video',
       maxResults: 20,
-      key: this.apiKey
+      key: apiKeys.youtube
     }
   }
 
