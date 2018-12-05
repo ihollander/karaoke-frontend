@@ -36,7 +36,7 @@ class RailsAPIAdapter {
   }
 
   delete(id) {
-    return this.request(`${this.baseURL}/${id}`, {
+    return fetch(`${this.baseURL}/${id}`, {
       method: 'DELETE'
     })
   }

@@ -8,6 +8,15 @@ class Playlist {
     Playlist.all.push(this)
   }
 
+  moveToTop() {
+    const currentIndex = Playlist.all.findIndex(pl => pl.id == this.id)
+    Playlist.all.splice(currentIndex, 1)
+    Playlist.all = [this, ...Playlist.all]
+    Playlist.all.forEach((pl, index) => {
+      pl.updateSort(index + 1)
+    })
+  }
+
   updateSort(sortOrder) {
     this.sort = sortOrder
     Playlist.adapter.patch(this.id, { sort: this.sort })
@@ -18,6 +27,9 @@ class Playlist {
               <span>Song: ${this.song.title} | User: ${this.user.name}</span>
               <button data-action="play" class="btn-primary">
                 <span class="fa fa-play"></span>
+              </button>
+              <button data-action="delete" class="btn-danger">
+                <span class="fa fa-times"></span>
               </button>
             </li>`
   }
@@ -42,10 +54,6 @@ class Playlist {
     return this.all.sort((a,b) => (a.sort < b.sort) ? -1 : ((a.sort > b.sort) ? 1 : 0))
   }
 
-  static get currentVideo() {
-    return this.sort().find(pl => !pl.played)
-  }
-
   static render() {
     return this.sort().map(pl => pl.render()).join('')
   }
@@ -54,16 +62,38 @@ class Playlist {
     return this.all.find(u => u.id == id)
   }
 
+  static findBy(key, value) {
+    return this.all.find(a => a[key] == value)
+  }
+
   static create(playlistObj) {
     return this.adapter.post(playlistObj)
       .then(json => new Playlist(json))
       .catch(console.error)
   }
 
+  static remove(id) {
+    const i = Playlist.all.findIndex(pl => pl.id == id)
+    Playlist.all.splice(i, 1)
+    Playlist.adapter.delete(id)
+  }
+
+  static nextVideo() {
+    if (!Playlist.currentVideo) {
+      Playlist.currentVideo = Playlist.all[0]
+    } else {
+      const i = Playlist.all.findIndex(pl => pl.id == Playlist.currentVideo.id)
+      Playlist.currentVideo = Playlist.all[i + 1]
+    }
+  }
+
   static populateFromAPI() {
     return this.adapter.getAll()
       .then(json => {
         json.forEach(playlistObj => new Playlist(playlistObj))
+      })
+      .then(() => {
+        // this.
       })
       .catch(console.error)
   }

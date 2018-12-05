@@ -13,12 +13,15 @@ class YouTubeSearchAPIAdapter {
   constructor() {
     this.baseUrl = 'https://www.googleapis.com/youtube/v3/search'
     this.defaultParams = {
-      videoEmbeddable: 'true',
+      videoEmbeddable: true,
       order: 'relevance',
       part: 'snippet',
       type: 'video',
       maxResults: 20,
-      key: apiKeys.youtube
+      key: apiKeys.youtube,
+      regionCode: 'US',
+      safeSearch: 'strict',
+      videoSyndicated: true
     }
   }
 
