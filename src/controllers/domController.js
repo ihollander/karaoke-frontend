@@ -1,6 +1,6 @@
 class DOMController {
   constructor() {
-    this.songList = document.getElementById('song-list')
+    this.songList = document.getElementById('song-list') // this is currently
     this.userList = document.getElementById('user-list')
     this.searchForm = document.getElementById('search-form')
     this.player = document.getElementById('player')
