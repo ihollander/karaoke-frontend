@@ -28,6 +28,7 @@ class YouTubeSearch {
     this.results = [] // reset the results array for each search
     return this.adapter.search(q)
       .then(json => {
+        console.log(json)
         json.items.forEach(item => {
           new YouTubeSearch(item)
         })
@@ -38,3 +39,4 @@ class YouTubeSearch {
 
 YouTubeSearch.results = []
 YouTubeSearch.adapter = new YouTubeSearchAPIAdapter()
+YouTubeSearch.testVideoId

@@ -9,6 +9,7 @@ class DOMController {
     this.userLogin = document.querySelector('#user-login')
 
 
+    this.hiddenPlayer // hacky workaround for checking if a video is embeddable...
     this.player // Youtube Player reference
 
     this.userLogin.addEventListener('submit', this.handleUserLogin.bind(this))
@@ -50,13 +51,86 @@ class DOMController {
   // EVENT HANDLERS //
   handleAPIReady() {
     this.player = new YT.Player('player', {
-      height: '390',
-      width: '640',
-      videoId: Playlist.sort()[0].song.youtube_id,
       events: {
+        'onReady': this.handlePlayerReady.bind(this),
         'onStateChange': this.handlePlayerStateChange.bind(this)
       }
     })
+    this.hiddenPlayer = new YT.Player('hidden-player', {
+      height: 0,
+      width: 0,
+      events: {
+        'onReady': this.handleHiddenPlayerReady.bind(this),
+        'onStateChange': this.handleHiddenPlayerStateChange.bind(this),
+        'onError': this.handleHiddenPlayerError.bind(this)
+      }
+    })
+  }
+
+  handlePlayerReady(event) {
+    if (Playlist.currentVideo) {
+      this.hiddenPlayer.loadVideoById({
+        videoId: Playlist.currentVideo.song.youtube_id
+      })
+    }
+  }
+
+  handleHiddenPlayerReady(event) {
+    this.hiddenPlayer.loadVideoById({
+      videoId: YouTubeSearch.testVideoId
+    })
+  }
+
+  // this is hacky, pls fix
+  // wait for hidden video to play before adding it to the song list
+  handleHiddenPlayerStateChange(event) {
+    if (event.data == 1) {
+      console.log('playing OK')
+      const videoData = event.target.getVideoData()
+      this.hiddenPlayer.stopVideo()
+      const songData = {
+        title: videoData.title,
+        youtube_id: videoData.video_id
+      }
+      Song.create(songData)
+        .then(song => {
+          Playlist.create({ user_id: this.searchForm.user.value, song_id: song.id })
+            .then(() => {
+              this.renderPlaylist()
+              if (!Playlist.currentVideo) {
+                Playlist.sort()
+                Playlist.currentVideo = Playlist.all[0]
+                this.player.loadVideoById({ // play next video
+                  videoId: Playlist.currentVideo.song.youtube_id,
+                  suggestedQuality: 'large'
+                })
+              }
+            })
+        })
+    }
+  }
+
+  handleHiddenPlayerError(event) {
+    switch(event.data) {
+      case 2:
+        alert('The request contains an invalid parameter value. For example, this error occurs if you specify a video ID that does not have 11 characters, or if the video ID contains invalid characters, such as exclamation points or asterisks.')
+        break
+      case 5:
+        alert('The requested content cannot be played in an HTML5 player or another error related to the HTML5 player has occurred.')
+        break
+      case 100:
+        alert('The video requested was not found. This error occurs when a video has been removed (for any reason) or has been marked as private.')
+        break
+      case 101:
+        alert('The owner of the requested video does not allow it to be played in embedded players.')
+        break
+      case 150:
+        alert('The owner of the requested video does not allow it to be played in embedded players.')
+        break
+      default:
+        alert('¯\\_(ツ)_/¯')
+        break
+    }
   }
 
   handleUserLogin(event) {
@@ -72,7 +146,10 @@ class DOMController {
 
   handlePlayerStateChange(event) {
     if (event.data == 0) {
-      Playlist.currentVideo.played = true // set current video as played (new current video is now next video)
+      const currentId = Playlist.currentVideo.id
+      Playlist.nextVideo()
+      Playlist.remove(currentId)
+      this.renderPlaylist()
       if (Playlist.currentVideo) {
         this.player.loadVideoById({ // play next video
           videoId: Playlist.currentVideo.song.youtube_id,
@@ -91,21 +168,25 @@ class DOMController {
 
   handlePlaylistClick(event) {
     if (event.target.dataset.action === "play" || event.target.parentNode.dataset.action === "play") {
-      const id = event.target.closest('li').dataset.id
-      Playlist.currentVideo.played = true // change current video
-
-      const playlist = Playlist.find(id)
-      playlist.updateSort(0) // move to top
+      const id = event.target.closest('li').dataset.id      
+      const playlistItem = Playlist.find(id)
+      playlistItem.moveToTop() // move to top
       this.renderPlaylist() // re-render playlist
       // change the video in the player
       if (!this.player) {
         this.initPlayer()
       } else {
+        Playlist.currentVideo.played = true // change current video
+        Playlist.currentVideo = Playlist.all[0]
         this.player.loadVideoById({ // play next video
           videoId: Playlist.currentVideo.song.youtube_id,
           suggestedQuality: 'large'
         })
       }
+    } else if (event.target.dataset.action === "delete" || event.target.parentNode.dataset.action === "delete") {
+      const id = event.target.closest('li').dataset.id
+      Playlist.remove(id)
+      this.renderPlaylist()
     }
   }
 
@@ -128,21 +209,14 @@ class DOMController {
 
   handleSearchResultListClick(e) {
     if (e.target.dataset.action === "add-to-playlist") {
-      const youtubeSong = YouTubeSearch.find(e.target.dataset.youtubeId)
-      const songData = {
-        title: youtubeSong.title,
-        youtube_id: youtubeSong.videoId
-      }
-      Song.create(songData)
-        .then(song => {
-          Playlist.create({ user_id: this.searchForm.user.value, song_id: song.id })
-            .then(() => {
-              this.renderPlaylist()
-              if (!this.player) {
-                this.initPlayer()
-              }
-            })
+      YouTubeSearch.testVideoId = e.target.dataset.youtubeId
+      if (!this.hiddenPlayer) {
+        this.initPlayer()
+      } else {
+        this.hiddenPlayer.loadVideoById({
+          videoId: YouTubeSearch.testVideoId
         })
+      }
     }
   }
 }

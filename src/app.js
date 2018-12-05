@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', e => {
           controller.renderUsers()
           Playlist.init()
             .then(() => {
+              Playlist.sort()
               controller.renderPlaylist()
             })
         })
