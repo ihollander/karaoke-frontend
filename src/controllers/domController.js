@@ -5,10 +5,14 @@ class DOMController {
     this.searchForm = document.getElementById('search-form')
     this.newUserForm = document.getElementById('new-user-form')
     this.playlist = document.getElementById('playlist')
+    this.overlay = document.querySelector('.overlay')
+    this.userLogin = document.querySelector('#user-login')
+
 
     this.hiddenPlayer // hacky workaround for checking if a video is embeddable...
     this.player // Youtube Player reference
 
+    this.userLogin.addEventListener('submit', this.handleUserLogin.bind(this))
     this.searchForm.addEventListener('submit', this.handleSearchFormSubmit.bind(this))
     this.newUserForm.addEventListener('submit', this.handleUserFormSubmit.bind(this))
     this.searchResultList.addEventListener('click', this.handleSearchResultListClick.bind(this))
@@ -17,7 +21,7 @@ class DOMController {
 
   // INITIALIZERS //
   initJQueryElements() {
-    $("#playlist").sortable({ 
+    $("#playlist").sortable({
       items: ".list-group-item",
       cursor: "move",
       stop: this.handlePlaylistSorted.bind(this)
@@ -129,6 +133,17 @@ class DOMController {
     }
   }
 
+  handleUserLogin(event) {
+    event.preventDefault()
+    const username = event.target.username.value
+    debugger
+    User.create({name: username})
+    .then(() => {
+      this.renderUsers()
+      this.overlay.style.display = "none"
+    })
+  }
+
   handlePlayerStateChange(event) {
     if (event.data == 0) {
       const currentId = Playlist.currentVideo.id
@@ -153,8 +168,7 @@ class DOMController {
 
   handlePlaylistClick(event) {
     if (event.target.dataset.action === "play" || event.target.parentNode.dataset.action === "play") {
-      const id = event.target.closest('li').dataset.id
-      
+      const id = event.target.closest('li').dataset.id      
       const playlistItem = Playlist.find(id)
       playlistItem.moveToTop() // move to top
       this.renderPlaylist() // re-render playlist
