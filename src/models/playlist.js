@@ -1,14 +1,24 @@
 class Playlist {
-  constructor({ id, user_id, song_id }) {
+  constructor({ id, user_id, song_id, sort }) {
     this.id = id
     this.user_id = user_id
     this.song_id = song_id
+    this.sort = sort
+    this.played = false
     Playlist.all.push(this)
   }
 
+  updateSort(sortOrder) {
+    this.sort = sortOrder
+    Playlist.adapter.patch(this.id, { sort: this.sort })
+  }
+
   render() {
-    return `<li>
-              Song: ${this.song.title} | User: ${this.user.name}
+    return `<li class="list-group-item" data-id="${this.id}">
+              <span>Song: ${this.song.title} | User: ${this.user.name}</span>
+              <button data-action="play" class="btn-primary">
+                <span class="fa fa-play"></span>
+              </button>
             </li>`
   }
 
@@ -28,8 +38,16 @@ class Playlist {
     this.user_id = userObj.id
   }
 
+  static sort() { // sort in place and return sorted list
+    return this.all.sort((a,b) => (a.sort < b.sort) ? -1 : ((a.sort > b.sort) ? 1 : 0))
+  }
+
+  static get currentVideo() {
+    return this.sort().find(pl => !pl.played)
+  }
+
   static render() {
-    return this.all.map(pl => pl.render()).join('')
+    return this.sort().map(pl => pl.render()).join('')
   }
 
   static find(id) {
@@ -57,3 +75,4 @@ class Playlist {
 }
 
 Playlist.all = []
+Playlist.currentVideo

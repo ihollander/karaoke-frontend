@@ -27,6 +27,14 @@ class RailsAPIAdapter {
     })
   }
 
+  patch(id, data) {
+    return this.request(`${this.baseURL}/${id}`, {
+      method: 'PATCH',
+      headers: this.defaultHeaders,
+      body: JSON.stringify(data)
+    })
+  }
+
   delete(id) {
     return this.request(`${this.baseURL}/${id}`, {
       method: 'DELETE'
