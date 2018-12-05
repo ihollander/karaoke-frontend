@@ -23,6 +23,7 @@ function createVideo(containerId, videoId) {
   }
 }
 
+
 document.addEventListener('DOMContentLoaded', e => {
   const currentUrl = new URL(window.location.href)
   const roomId = currentUrl.searchParams.get("id")

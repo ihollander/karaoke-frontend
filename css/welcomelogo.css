@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css?family=Allura|Damion|Kumar+One+Outline|Monoton');
+
+@font-face {
+  font-family: 'Kumar One Outline', cursive;
+  /* src: url('https://fonts.googleapis.com/css?family=Unlock'); */
+}
+
+@font-face {
+  font-family: 'Monoton', cursive;
+  /* src: url('https://fonts.googleapis.com/css?family=Righteous'); */
+}
+
+@font-face {
+  font-family: 'Allura', cursive;
+  /* src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/707108/lasenter.ttf'); */
+}
+
+@font-face {
+  font-family: 'Damion', cursive;
+  /* src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/707108/lasenter.ttf'); */
+}
+
+  /* #container {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+  } */
+
+  .welcome-sign {
+    /* margin-bottom: ;
+    margin-top: 20vw;
+    margin-left: -4vw;
+    margin-right: -4vw; */
+    margin: 0 auto;
+  }
+
+  .youtube {
+    -ms-transform: rotate(-10deg); /* IE 9 */
+    -webkit-transform: rotate(-10deg); /* Chrome, Safari, Opera */
+    color: #28D7FE;
+    font-family: Allura;
+    font-size: 8vw;
+    transform: rotate(-10deg);
+    margin-left: 30vw;
+    text-shadow:
+    .1vw 0vw .25vw #28D7FE, .2vw 0vw .25vw #28D7FE, .4vw 0vw .25vw #28D7FE,
+    .1vw 0vw .1vw #1041FF, .2vw 0vw 0vw #1041FF, .4vw 0vw 0vw #1041FF,
+    .1vw 0vw .1vw #1041FF, .2vw 0vw .1vw #1041FF, .4vw 0vw 0vw #1041FF,
+    .1vw 0vw .8vw #1041FF, .2vw 0vw .8vw #1041FF, .4vw 0vw .8vw #1041FF, .2vw 0vw .5vw #1041FF,
+    .1vw 0vw .5vw #1041FF, .2vw 0vw .5vw #1041FF, .4vw 0vw .5vw #1041FF,
+    .1vw 0vw 10vw #1041FF, .2vw 0vw 10vw #1041FF, .4vw 0vw 10vw #1041FF;
+  }
+
+  .ktv {
+    color: #A9FFDC;
+    font-family: Monoton;
+    font-size: 6vw;
+    margin-left: 50vw;
+    margin-top: -.75vw;
+    text-shadow:
+    -.1vw 0vw .25vw #A9FFDC, -.2vw 0vw .25vw #A9FFDC, -.4vw 0vw .25vw #A9FFDC,
+    -.1vw 0vw .1vw #00CC2A, -.2vw 0vw .1vw #00CC2A, -.4vw 0vw .1vw #00CC2A,
+    -.1vw 0vw .8vw #00CC2A, -.2vw 0vw .8vw #00CC2A, -.4vw 0vw .8vw #00CC2A, .2vw 0vw .5vw #00CC2A,
+    -.1vw 0vw .5vw #00CC2A, -.2vw 0vw .5vw #00CC2A, -.4vw 0vw .5vw #00CC2A,
+    -.1vw 0vw 10vw #16FA19, -.2vw 0vw 10vw #16FA19, -.4vw 0vw 10vw #16FA19;
+  }
+
+  .palace {
+    font-family: Kumar One Outline;
+    font-size: 6vw;
+    margin-left: 40vw;
+  }
+
+
+  .palace {
+    animation: palace 1s 0s ease infinite;
+    -moz-animation: palace 1s 0s ease infinite;
+    /* Firefox */
+    -webkit-animation: palace 1s 0s ease infinite;
+    /* Safari and Chrome */
+    -o-animation: palace 1s 0s ease infinite;
+    /* Opera */
+  }
+
+  @keyframes palace {
+    0%,
+    100% {
+    text-shadow:
+    -.1vw 0vw .1vw #FED128, -.15vw 0vw .2vw #FED128, -.2vw 0vw .2vw #FED128,
+    -.1vw 0vw 3vw #F0130B, -.2vw 0vw 3vw #F0130B, -.4vw 0vw 3vw #F0130B,
+    -.1vw 0vw 5vw #F0130B, -.2vw 0vw 5vw #F0130B, -.4vw 0vw .8vw #F0130B, .2vw 0vw 10vw #F0130B;
+      color: #FED128;
+    }
+    50% {
+    text-shadow:
+    -.1vw 0vw .1vw #705C12, -.15vw 0vw .2vw #705C12, -.2vw 0vw .2vw #705C12,
+    -.1vw 0vw .1vw #5C0704, -.2vw 0vw .1vw #5C0704, -.4vw 0vw .1vw #5C0704,
+    -.1vw 0vw .2vw #5C0704, -.2vw 0vw .2vw #5C0704, -.4vw 0vw .2vw #5C0704, .2vw 0vw .5vw #5C0704;
+      color: #705C12;
+    }
+  }
