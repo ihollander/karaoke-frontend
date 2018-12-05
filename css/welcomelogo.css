@@ -1,36 +1,26 @@
 @import url('https://fonts.googleapis.com/css?family=Allura|Damion|Kumar+One+Outline|Monoton');
 
-@font-face {
+/* @font-face {
   font-family: 'Kumar One Outline', cursive;
-  /* src: url('https://fonts.googleapis.com/css?family=Unlock'); */
+  src: url('https://fonts.googleapis.com/css?family=Unlock');
 }
 
 @font-face {
   font-family: 'Monoton', cursive;
-  /* src: url('https://fonts.googleapis.com/css?family=Righteous'); */
+  src: url('https://fonts.googleapis.com/css?family=Righteous');
 }
 
 @font-face {
   font-family: 'Allura', cursive;
-  /* src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/707108/lasenter.ttf'); */
+  src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/707108/lasenter.ttf');
 }
 
 @font-face {
   font-family: 'Damion', cursive;
-  /* src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/707108/lasenter.ttf'); */
-}
-
-  /* #container {
-    display: table-cell;
-    text-align: center;
-    vertical-align: middle;
-  } */
-
-  .welcome-sign {
-    /* margin-bottom: ;
-    margin-top: 20vw;
-    margin-left: -4vw;
-    margin-right: -4vw; */
+  src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/707108/lasenter.ttf');
+} */
+  
+.welcome-sign {
     margin: 0 auto;
   }
 
@@ -70,7 +60,6 @@
     font-size: 6vw;
     margin-left: 40vw;
   }
-
 
   .palace {
     animation: palace 1s 0s ease infinite;

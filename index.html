@@ -18,20 +18,8 @@
   <link rel="stylesheet" href="css/welcomelogo.css">
   <link rel="stylesheet" href="css/usersignin.css">
 
-  <script src="src/config/environment.js"></script>
-  <script src="src/adapters/railsAdapter.js"></script>
-  <script src="src/adapters/youtubeSearchAdapter.js"></script>
-  <script src="src/models/playlist.js"></script>
-  <script src="src/models/room.js"></script>
-  <script src="src/models/song.js"></script>
-  <script src="src/models/user.js"></script>
-  <script src="src/models/youtubeSearch.js"></script>
-  <script src="src/controllers/domController.js"></script>
-  <script src="src/app.js"></script>
-
-
-<style>
-  .overlay {
+  <style>
+    .overlay {
         position: fixed;
         top: 0;
         left: 0;
@@ -62,9 +50,9 @@
     </div>
   </div>
   <div class="row">
-      <div class="col-sm-3">
-        <div class="main"></div>
-          <h5>Karoke Room<h5>
+    <div class="col-sm-3">
+      <div class="main"></div>
+      <h5>Karoke Room<h5>
           <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
               <a class="nav-link active" id="search-tab" data-toggle="tab" href="#search" role="tab" aria-controls="search"
@@ -80,24 +68,24 @@
               <a class="nav-link" data-toggle="tab" href="#song" role="tab" aria-controls="song" aria-selected="false">Song</a>
             </li>
           </ul>
-            <!-- SEARCH BAR -->
+          <!-- SEARCH BAR -->
           <div class="tab-content">
             <div class="tab-pane fade show active" id="search" role="tabpanel" aria-labelledby="home-tab">
               <form id="search-form">
-              <div class="input-group">
-                <input class="form-control" type="text" name="search" placeholder="Search song or artist">
-              </div>
-              <div class="input-group">
-                <select class="form-control" name="user"></select>
-              </div>
-              <div class="input-group">
-                <input class="btn-primary" type="submit" value="Search">
-              </div>
-            </form>
+                <div class="input-group">
+                  <input class="form-control" type="text" name="search" placeholder="Search song or artist">
+                </div>
+                <div class="input-group">
+                  <select class="form-control" name="user"></select>
+                </div>
+                <div class="input-group">
+                  <input class="btn-primary" type="submit" value="Search">
+                </div>
+              </form>
 
               <!-- Song list -->
-            <div id="song-list"> </div>
-          </div>
+              <div id="song-list"> </div>
+            </div>
             <!-- Singers Tab -->
             <div class="tab-pane fade" id="singers" role="tabpanel" aria-labelledby="profile-tab">
               <form id="new-user-form">
@@ -112,29 +100,42 @@
               <ul class="list-group" id="user-list">
               </ul>
             </div>
-              <!-- Songs Tab -->
+            <!-- Songs Tab -->
             <div class="tab-pane fade" id="song" role="tabpanel" aria-labelledby="messages-tab">
-              <ul id="playlist"></ul>
+              <ul class="sortable" id="playlist"></ul>
             </div>
 
           </div>
 
-      </div>
-      <div class="col-sm-9">
-        <!-- <div class="video-grid"> -->
-            <iframe src="https://www.youtube.com/embed/oYiT-vLjhC4" allowfullscreen></iframe>
-          <!-- </div> -->
-        </div>
-        <!-- <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+    </div>
+    <div class="col-sm-9">
+      <div id="player"></div>
+    </div>
+    <!-- <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
           <source id="player" src="https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4" type="video/mp4">
         </video> -->
-      </div>
-    </div>
+  </div>
+  </div>
 
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+  <script src="src/config/environment.js"></script>
+  <script src="src/adapters/railsAdapter.js"></script>
+  <script src="src/adapters/youtubeSearchAdapter.js"></script>
+  <script src="src/models/playlist.js"></script>
+  <script src="src/models/room.js"></script>
+  <script src="src/models/song.js"></script>
+  <script src="src/models/user.js"></script>
+  <script src="src/models/youtubeSearch.js"></script>
+  <script src="src/controllers/domController.js"></script>
+  <script src="src/app.js"></script>
+
 
 </body>
 
