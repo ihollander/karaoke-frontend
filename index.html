@@ -13,17 +13,6 @@
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-  <script src="src/config/environment.js"></script>
-  <script src="src/adapters/railsAdapter.js"></script>
-  <script src="src/adapters/youtubeSearchAdapter.js"></script>
-  <script src="src/models/playlist.js"></script>
-  <script src="src/models/room.js"></script>
-  <script src="src/models/song.js"></script>
-  <script src="src/models/user.js"></script>
-  <script src="src/models/youtubeSearch.js"></script>
-  <script src="src/controllers/domController.js"></script>
-  <script src="src/app.js"></script>
 </head>
 <body>
   <div class="row">
@@ -67,7 +56,7 @@
           </ul>
         </div>
         <div class="tab-pane" id="song" role="tabpanel" aria-labelledby="messages-tab">
-          <ul class="list-group" id="playlist"></ul>
+          <ul class="sortable" id="playlist" style="width:100%;"></ul>
         </div>
       </div>
     </div>
@@ -75,11 +64,22 @@
       <div id="player"></div>
     </div>
   </div>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
     crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+  <script src="src/config/environment.js"></script>
+  <script src="src/adapters/railsAdapter.js"></script>
+  <script src="src/adapters/youtubeSearchAdapter.js"></script>
+  <script src="src/models/playlist.js"></script>
+  <script src="src/models/room.js"></script>
+  <script src="src/models/song.js"></script>
+  <script src="src/models/user.js"></script>
+  <script src="src/models/youtubeSearch.js"></script>
+  <script src="src/controllers/domController.js"></script>
+  <script src="src/app.js"></script>
 </body>
 </html>

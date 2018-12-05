@@ -37,18 +37,24 @@ document.addEventListener('DOMContentLoaded', e => {
   const currentUrl = new URL(window.location.href)
   const roomId = currentUrl.searchParams.get("id")
   const controller = new DOMController()
-
+  
   //create the room when page is loaded
   Room.findOrCreate(roomId) // findOrCreate to test with sample data
     .then(() => {
-      Playlist.init()
-        .then(() => {
-          controller.renderPlaylist()
-        })
+      window.history.pushState("", "", `${location.origin}${location.pathname}?id=${Room.current.id}`)
       User.init()
         .then(() => {
           controller.renderUsers()
+          Playlist.init()
+            .then(() => {
+              controller.renderPlaylist()
+            })
         })
       Song.init()
+      
     })
+
+  $(function() {
+    controller.initJQueryElements()
+  })
 })
