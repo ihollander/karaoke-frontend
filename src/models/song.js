@@ -7,7 +7,7 @@ class Song {
   }
 
   render() {
-    return `<div data-youtube-id="${this.youtube_id}">${this.title}</div>`
+    return `<li class="list-group-item" data-youtube-id="${this.youtube_id}">${this.title}</li>`
   }
 
   static render() {

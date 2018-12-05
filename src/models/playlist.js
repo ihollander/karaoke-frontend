@@ -3,6 +3,7 @@ class Playlist {
     this.id = id
     this.user_id = user_id
     this.song_id = song_id
+    this.played = false
     Playlist.all.push(this)
   }
 
@@ -26,6 +27,14 @@ class Playlist {
 
   set user(userObj) {
     this.user_id = userObj.id
+  }
+
+  static get currentVideo() {
+    return Playlist.all.find(pl => !pl.played)
+  }
+
+  static get youtubePlaylist() {
+    return Playlist.all.map(pl => pl.song.youtube_id)
   }
 
   static render() {
