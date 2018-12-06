@@ -24,9 +24,6 @@ class Playlist {
 
   render() {
     return `<li class="playlist" data-id="${this.id}">
-              <div class="play-button">
-                <button data-action="play"></button>
-              </div>
               <div class="info">
                 <div class="song">${this.song.title}</div>
                 <div class="singer">Sung By: ${this.user.name}</div>
@@ -36,6 +33,19 @@ class Playlist {
                 <span class="fa fa-arrows-v" data-action="move"></span>
               </div>
             </li>`
+  }
+
+  static renderNowPlaying() {
+    let next = ''
+    if (Playlist.allButCurrent.length) {
+      next = `<div class="next">
+                <span class="fa fa-step-forward"></span>
+              </div>`
+    }
+    return `<div class="now-playing">
+              <div class="marquee">Now Playing ${Playlist.currentVideo.song.title} - Sung By ${Playlist.currentVideo.user.name}</div>
+            </div>
+            ${next}`
   }
 
   get song() {
@@ -58,8 +68,12 @@ class Playlist {
     return this.all.sort((a,b) => (a.sort < b.sort) ? -1 : ((a.sort > b.sort) ? 1 : 0))
   }
 
+  static get allButCurrent() {
+    return this.all.filter(pl => pl !== Playlist.currentVideo)
+  }
+
   static render() {
-    return this.all.map(pl => pl.render()).join('')
+    return this.allButCurrent.map(pl => pl.render()).join('')
   }
 
   static find(id) {

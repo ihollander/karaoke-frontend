@@ -58,8 +58,12 @@ document.addEventListener('DOMContentLoaded', e => {
           controller.renderUsers()
           Playlist.init()
             .then(() => {
-              Playlist.sort()
-              controller.renderPlaylist()
+              if (Playlist.all.length) {
+                controller.initPlayer()
+                Playlist.sort()
+                Playlist.currentVideo = Playlist.all[0]
+                controller.renderPlaylist()
+              }
             })
         })
       Song.init()

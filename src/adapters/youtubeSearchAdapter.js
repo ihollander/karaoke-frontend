@@ -17,7 +17,7 @@ class YouTubeSearchAPIAdapter {
       order: 'relevance',
       part: 'snippet',
       type: 'video',
-      maxResults: 20,
+      maxResults: 50,
       key: apiKeys.youtube,
       regionCode: 'US',
       safeSearch: 'strict',

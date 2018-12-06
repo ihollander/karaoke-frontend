@@ -6,12 +6,15 @@ class DOMController {
     this.newUserForm = document.getElementById('new-user-form')
     this.playlist = document.getElementById('playlist')
     this.overlay = document.querySelector('.overlay')
+    this.nowPlaying = document.querySelector('#tv-header')
     this.userLogin = document.querySelector('#user-login')
     this.userLogin.username.focus()
+
 
     this.hiddenPlayer // hacky workaround for checking if a video is embeddable...
     this.player // Youtube Player reference
 
+    this.nowPlaying.addEventListener('click', this.handleNextButtonClick.bind(this))
     this.userLogin.addEventListener('submit', this.handleUserLogin.bind(this))
     this.searchForm.addEventListener('submit', this.handleSearchFormSubmit.bind(this))
     this.newUserForm.addEventListener('submit', this.handleUserFormSubmit.bind(this))
@@ -47,7 +50,8 @@ class DOMController {
 
   renderPlaylist() {
     if (Playlist.all.length) {
-      this.playlist.innerHTML = Playlist.render()
+      this.nowPlaying.innerHTML = Playlist.renderNowPlaying()
+      this.playlist.innerHTML = Playlist.render() // all but currently playing
     }
   }
 
@@ -101,7 +105,6 @@ class DOMController {
           Playlist.create({ user_id: this.searchForm.user.value, song_id: song.id })
             .then(() => {
               toastr.success(`${songData.title} added`, 'Success!')
-              this.renderPlaylist()
               if (!Playlist.currentVideo) {
                 Playlist.sort()
                 Playlist.currentVideo = Playlist.all[0]
@@ -110,6 +113,7 @@ class DOMController {
                   suggestedQuality: 'large'
                 })
               }
+              this.renderPlaylist()
             })
         })
     }
@@ -171,27 +175,25 @@ class DOMController {
   }
 
   handlePlaylistClick(event) {
-    if (event.target.dataset.action === "play" || event.target.parentNode.dataset.action === "play") {
-      const id = event.target.closest('li').dataset.id      
-      const playlistItem = Playlist.find(id)
-      playlistItem.moveToTop() // move to top
+    if (event.target.dataset.action === "delete" || event.target.parentNode.dataset.action === "delete") {
+      const id = event.target.closest('li').dataset.id
+      Playlist.remove(id)
+      this.renderPlaylist()
+    }
+  }
+
+  handleNextButtonClick(event) {
+    if (event.target.className === 'next' || event.target.className === "fa fa-step-forward") {
+      const currentId = Playlist.currentVideo.id
+      Playlist.nextVideo()
+      Playlist.remove(currentId)
+      this.renderPlaylist()
       if (Playlist.currentVideo) {
-        Playlist.remove(Playlist.currentVideo.id) // remove currently playing video
-      }
-      Playlist.currentVideo = Playlist.all[0] // change current video
-      this.renderPlaylist() // re-render playlist
-      if (!this.player) {
-        this.initPlayer()
-      } else {
         this.player.loadVideoById({ // play next video
           videoId: Playlist.currentVideo.song.youtube_id,
           suggestedQuality: 'large'
         })
       }
-    } else if (event.target.dataset.action === "delete" || event.target.parentNode.dataset.action === "delete") {
-      const id = event.target.closest('li').dataset.id
-      Playlist.remove(id)
-      this.renderPlaylist()
     }
   }
 
@@ -213,7 +215,6 @@ class DOMController {
   }
 
   handleSearchResultListClick(e) {
-    console.log(e.target)
     if (e.target.dataset.action === "add-to-playlist" || e.target.closest('li').dataset.action === "add-to-playlist") {
       YouTubeSearch.testVideoId = e.target.dataset.youtubeId || e.target.closest('li').dataset.youtubeId
       if (!this.hiddenPlayer) {
