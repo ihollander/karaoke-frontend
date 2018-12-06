@@ -1,77 +1,59 @@
 class DOMController {
   constructor() {
-    this.searchResultList = document.getElementById("song-list");
-    this.userList = document.getElementById("user-list");
-    this.searchForm = document.getElementById("search-form");
-    this.newUserForm = document.getElementById("new-user-form");
-    this.playlist = document.getElementById("playlist");
-    this.overlay = document.querySelector(".overlay");
-    this.nowPlaying = document.querySelector("#tv-header");
-    this.userLogin = document.querySelector("#user-login");
-    this.userLogin.username.focus();
+    this.searchResultList = document.getElementById("song-list")
+    this.userList = document.getElementById("user-list")
+    this.searchForm = document.getElementById("search-form")
+    this.newUserForm = document.getElementById("new-user-form")
+    this.playlist = document.getElementById("playlist")
+    this.overlay = document.querySelector(".overlay")
+    this.nowPlaying = document.querySelector("#tv-header")
+    this.userLogin = document.querySelector("#user-login")
+    this.userLogin.username.focus()
 
-    this.hiddenPlayer; // hacky workaround for checking if a video is embeddable...
-    this.player; // Youtube Player reference
+    this.hiddenPlayer // hacky workaround for checking if a video is embeddable...
+    this.player // Youtube Player reference
 
-    this.nowPlaying.addEventListener(
-      "click",
-      this.handleNextButtonClick.bind(this)
-    );
-    this.userLogin.addEventListener("submit", this.handleUserLogin.bind(this));
-    this.searchForm.addEventListener(
-      "submit",
-      this.handleSearchFormSubmit.bind(this)
-    );
-    this.newUserForm.addEventListener(
-      "submit",
-      this.handleUserFormSubmit.bind(this)
-    );
-    this.searchResultList.addEventListener(
-      "click",
-      this.handleSearchResultListClick.bind(this)
-    );
-    this.playlist.addEventListener(
-      "click",
-      this.handlePlaylistClick.bind(this)
-    );
-    this.userList.addEventListener(
-      "click",
-      this.handleUserRemoveClick.bind(this)
-    );
+    this.nowPlaying.addEventListener("click", this.handleNextButtonClick.bind(this))
+    this.userLogin.addEventListener("submit", this.handleUserLogin.bind(this))
+    this.searchForm.addEventListener("submit", this.handleSearchFormSubmit.bind(this))
+    this.newUserForm.addEventListener("submit", this.handleUserFormSubmit.bind(this))
+    this.searchResultList.addEventListener("click", this.handleSearchResultListClick.bind(this))
+    this.playlist.addEventListener("click", this.handlePlaylistClick.bind(this))
+    this.userList.addEventListener("click", this.handleUserRemoveClick.bind(this))
   }
 
   // INITIALIZERS //
   initJQueryElements() {
     $("#playlist").sortable({
       items: ".playlist",
-      handle: ".fa-arrows-v",
+      handle: ".move",
       cursor: "move",
       stop: this.handlePlaylistSorted.bind(this)
     });
   }
 
   initPlayer() {
-    const tag = document.createElement("script");
-    tag.src = "https://www.youtube.com/iframe_api";
-    const firstScriptTag = document.getElementsByTagName("script")[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    const tag = document.createElement("script")
+    tag.src = "https://www.youtube.com/iframe_api"
+    const firstScriptTag = document.getElementsByTagName("script")[0]
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
 
-    window.onYouTubeIframeAPIReady = this.handleAPIReady.bind(this); // called when YouTube API script loads
+    window.onYouTubeIframeAPIReady = this.handleAPIReady.bind(this) // called when YouTube API script loads
   }
 
   // RENDER METHODS //
   renderUsers() {
-    this.userList.innerHTML = User.render();
-    const selectUser = this.searchForm.querySelector('select[name="user"]');
-    selectUser.innerHTML = User.renderSelectOptions();
+    this.userList.innerHTML = User.render()
+    const selectUser = this.searchForm.querySelector('select[name="user"]')
+    selectUser.innerHTML = User.renderSelectOptions()
   }
 
   renderPlaylist() {
     if (Playlist.all.length) {
-      this.nowPlaying.innerHTML = Playlist.renderNowPlaying();
-      this.playlist.innerHTML = Playlist.render(); // all but currently playing
+      this.nowPlaying.innerHTML = Playlist.renderNowPlaying()
+      this.playlist.innerHTML = Playlist.render() // all but currently playing
     } else {
-      this.nowPlaying.innerHTML = "";
+      this.nowPlaying.innerHTML = ""
     }
   }
 
@@ -114,12 +96,12 @@ class DOMController {
   // wait for hidden video to play before adding it to the song list
   handleHiddenPlayerStateChange(event) {
     if (event.data == 1) {
-      const videoData = event.target.getVideoData();
+      const videoData = event.target.getVideoData()
       const videoId = videoData.video_id
       const searchLi = this.searchResultList.querySelector(`[data-youtube-id="${videoId}"]`)
       searchLi.querySelector('.thumb').className = "thumb"
 
-      this.hiddenPlayer.stopVideo();
+      this.hiddenPlayer.stopVideo()
       const songData = {
         title: videoData.title,
         youtube_id: videoData.video_id
@@ -129,17 +111,17 @@ class DOMController {
           user_id: this.searchForm.user.value,
           song_id: song.id
         }).then(() => {
-          toastr.success(`${songData.title} added`, "Success!");
+          toastr.success(`${songData.title} added`, "Success!")
           if (!Playlist.currentVideo) {
             Playlist.sort();
-            Playlist.currentVideo = Playlist.all[0];
+            Playlist.currentVideo = Playlist.all[0]
             this.player.loadVideoById({
               // play next video
               videoId: Playlist.currentVideo.song.youtube_id,
               suggestedQuality: "large"
             });
           }
-          this.renderPlaylist();
+          this.renderPlaylist()
         });
       });
     }
@@ -188,21 +170,21 @@ class DOMController {
   }
 
   handleUserLogin(event) {
-    event.preventDefault();
-    const username = event.target.username.value;
+    event.preventDefault()
+    const username = event.target.username.value
     User.create({ name: username }).then(() => {
-      this.renderUsers();
-      this.overlay.style.display = "none";
+      this.renderUsers()
+      this.overlay.classList.add('hidden')
     });
   }
 
   handlePlayerStateChange(event) {
     if (event.data == 0) {
       // video done
-      const currentId = Playlist.currentVideo.id;
-      Playlist.nextVideo();
-      Playlist.remove(currentId);
-      this.renderPlaylist();
+      const currentId = Playlist.currentVideo.id
+      Playlist.nextVideo()
+      Playlist.remove(currentId)
+      this.renderPlaylist()
       if (Playlist.currentVideo) {
         this.player.loadVideoById({
           // play next video
@@ -214,35 +196,27 @@ class DOMController {
   }
 
   handlePlaylistSorted(event, ui) {
-    $(event.target)
-      .find("li")
-      .each(function(index, element) {
-        const playlist = Playlist.find(element.dataset.id);
-        playlist.updateSort(index + 1);
-        Playlist.sort();
+    $(event.target).find("li").each(function(index, element) {
+        const playlist = Playlist.find(element.dataset.id)
+        playlist.updateSort(index + 1)
+        Playlist.sort()
       });
   }
 
   handlePlaylistClick(event) {
-    if (
-      event.target.dataset.action === "delete" ||
-      event.target.parentNode.dataset.action === "delete"
-    ) {
-      const id = event.target.closest("li").dataset.id;
-      Playlist.remove(id);
-      this.renderPlaylist();
+    if (event.target.dataset.action === "delete" || event.target.parentNode.dataset.action === "delete" ) {
+      const id = event.target.closest("li").dataset.id
+      Playlist.remove(id)
+      this.renderPlaylist()
     }
   }
 
   handleNextButtonClick(event) {
-    if (
-      event.target.dataAction === "next" ||
-      event.target.className === "fa fa-step-forward"
-    ) {
-      const currentId = Playlist.currentVideo.id;
-      Playlist.nextVideo();
-      Playlist.remove(currentId);
-      this.renderPlaylist();
+    if (event.target.dataAction === "next" || event.target.className === "fa fa-step-forward") {
+      const currentId = Playlist.currentVideo.id
+      Playlist.nextVideo()
+      Playlist.remove(currentId)
+      this.renderPlaylist()
       if (Playlist.currentVideo) {
         this.player.loadVideoById({
           // play next video
@@ -254,39 +228,43 @@ class DOMController {
   }
 
   handleUserRemoveClick(event) {
-    event.target.dataset.action === "delete" ||
-      event.target.parentNode.dataset.action === "delete";
-    const id = event.target.closest("li").dataset.id;
-    const user = User.find(id);
-    user.playlists.forEach(p => {
-      Playlist.removeLocal(p.id);
-    });
-    User.remove(id);
-    this.renderUsers();
-    this.renderPlaylist();
+    if (event.target.dataset.action === "delete" || event.target.parentNode.dataset.action === "delete") {
+      const id = event.target.closest("li").dataset.id
+      const user = User.find(id)
+      user.playlists.forEach(p => {
+        Playlist.removeLocal(p.id)
+      });
+      User.remove(id)
+      this.renderUsers()
+      this.renderPlaylist()
+    }
   }
 
   handleSearchFormSubmit(e) {
-    e.preventDefault();
+    e.preventDefault()
     YouTubeSearch.search(e.target.search.value).then(() => {
-      this.searchResultList.innerHTML = YouTubeSearch.renderResults();
+      this.searchResultList.innerHTML = YouTubeSearch.renderResults()
     });
   }
 
   handleUserFormSubmit(e) {
-    e.preventDefault();
+    e.preventDefault()
     User.create({ name: e.target.name.value }).then(() => {
-      this.renderUsers();
-      e.target.reset();
+      this.renderUsers()
+      e.target.reset()
     });
   }
 
   handleSearchResultListClick(e) {
     if (e.target.dataset.action === "add-to-playlist" || e.target.closest("li").dataset.action === "add-to-playlist") {
-      YouTubeSearch.testVideoId = e.target.dataset.youtubeId || e.target.closest("li").dataset.youtubeId;
-      e.target.className = "thumb loader"
+      YouTubeSearch.testVideoId = e.target.dataset.youtubeId || e.target.closest("li").dataset.youtubeId
+      if (e.target.className === "thumb") {
+        e.target.className = "thumb loader"
+      } else {
+        e.target.closest("li").querySelector('.thumb').className = "thumb loader"
+      }
       if (!this.hiddenPlayer) {
-        this.initPlayer();
+        this.initPlayer()
       } else {
         this.hiddenPlayer.loadVideoById({
           videoId: YouTubeSearch.testVideoId

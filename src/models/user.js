@@ -21,7 +21,9 @@ class User {
                 <div class="singer">${this.name}</div>
               </div>
               <div class="controls">
-                <span class="fa fa-eject" data-action="delete"></span>
+                <button class="button" data-action="delete" style="background-color:transparent;">
+                  <span class="fa fa-eject"></span>
+                </button>
               </div>
             </li>
             `

@@ -29,8 +29,12 @@ class Playlist {
                 <div class="singer">Sung By: ${this.user.name}</div>
               </div>
               <div class="controls">
-                <span class="fa fa-eject" data-action="delete"></span>
-                <span class="fa fa-arrows-v" data-action="move"></span>
+                <button class="button" data-action="delete" style="background-color:transparent;">
+                  <span class="fa fa-eject"></span>
+                </button>
+                <div class="button move" data-action="move" style="background-color:transparent;">
+                  <span class="fa fa-arrows-v"></span>
+                </div>
               </div>
             </li>`
   }

@@ -80,7 +80,7 @@ ul.sidebar-list li.playlist {
 }
 
 ul.sidebar-list li.playlist .info {
-  width: 80%;
+  width: 75%;
   margin-left: 10px;
   float: left;
 }
@@ -92,8 +92,8 @@ ul.sidebar-list li.playlist .info .singer {
 }
 
 ul.sidebar-list li.playlist .controls {
-  width: 10%;
-  margin-left: 10px;
+  width: 20%;
+  margin-left: 5px;
   cursor: pointer;
 }
 
@@ -125,32 +125,24 @@ ul.sidebar-list li.song-result .thumb {
   float: left;
   position: relative;
   background-size: cover;
+  padding: 10px 30px;
 }
 
 ul.sidebar-list li.song-result .thumb::before {
-  width: 80px;
-  height: 60px;
   content: "\f067";
   font-family: FontAwesome;
   font-size: 28px;
   color: rgba(255, 255, 255, 0);
   text-shadow: 0 0 40px #000;
   text-align: center;
-  display: block;
-  position: absolute;
-  margin: 10px 0;
+  display: inline-block;
   transition: 0.3s;
 }
 
 ul.sidebar-list li.song-result .thumb.loader::before {
-  position: relative;
-  width: 20px;
-  margin: 20px auto;
   content: "\f110";
-  font-family: FontAwesome;
-  font-size: 20px;
-  display: block;
-  top: 0;
+  -webkit-animation: fa-spin 2s infinite linear;
+  animation: fa-spin 2s infinite linear;
 }
 
 ul.sidebar-list li.song-result:hover .thumb::before {
