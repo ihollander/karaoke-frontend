@@ -7,7 +7,7 @@ class DOMController {
     this.playlist = document.getElementById('playlist')
     this.overlay = document.querySelector('.overlay')
     this.userLogin = document.querySelector('#user-login')
-
+    this.userLogin.username.focus()
 
     this.hiddenPlayer // hacky workaround for checking if a video is embeddable...
     this.player // Youtube Player reference
@@ -22,7 +22,8 @@ class DOMController {
   // INITIALIZERS //
   initJQueryElements() {
     $("#playlist").sortable({
-      items: ".list-group-item",
+      items: ".playlist",
+      handle: ".fa-arrows-v",
       cursor: "move",
       stop: this.handlePlaylistSorted.bind(this)
     })
@@ -45,7 +46,9 @@ class DOMController {
   }
 
   renderPlaylist() {
-    this.playlist.innerHTML = Playlist.render()
+    if (Playlist.all.length) {
+      this.playlist.innerHTML = Playlist.render()
+    }
   }
 
   // EVENT HANDLERS //
@@ -69,23 +72,24 @@ class DOMController {
 
   handlePlayerReady(event) {
     if (Playlist.currentVideo) {
-      this.hiddenPlayer.loadVideoById({
+      this.player.loadVideoById({
         videoId: Playlist.currentVideo.song.youtube_id
       })
     }
   }
 
   handleHiddenPlayerReady(event) {
-    this.hiddenPlayer.loadVideoById({
-      videoId: YouTubeSearch.testVideoId
-    })
+    if (YouTubeSearch.testVideoId) {
+      this.hiddenPlayer.loadVideoById({
+        videoId: YouTubeSearch.testVideoId
+      })
+    }
   }
 
   // this is hacky, pls fix
   // wait for hidden video to play before adding it to the song list
   handleHiddenPlayerStateChange(event) {
     if (event.data == 1) {
-      console.log('playing OK')
       const videoData = event.target.getVideoData()
       this.hiddenPlayer.stopVideo()
       const songData = {
@@ -96,6 +100,7 @@ class DOMController {
         .then(song => {
           Playlist.create({ user_id: this.searchForm.user.value, song_id: song.id })
             .then(() => {
+              toastr.success(`${songData.title} added`, 'Success!')
               this.renderPlaylist()
               if (!Playlist.currentVideo) {
                 Playlist.sort()
@@ -113,22 +118,22 @@ class DOMController {
   handleHiddenPlayerError(event) {
     switch(event.data) {
       case 2:
-        alert('The request contains an invalid parameter value. For example, this error occurs if you specify a video ID that does not have 11 characters, or if the video ID contains invalid characters, such as exclamation points or asterisks.')
+        toastr.error('The request contains an invalid parameter value. For example, this error occurs if you specify a video ID that does not have 11 characters, or if the video ID contains invalid characters, such as exclamation points or asterisks.', 'Error adding video')
         break
       case 5:
-        alert('The requested content cannot be played in an HTML5 player or another error related to the HTML5 player has occurred.')
+        toastr.error('The requested content cannot be played in an HTML5 player or another error related to the HTML5 player has occurred.', 'Error adding video')
         break
       case 100:
-        alert('The video requested was not found. This error occurs when a video has been removed (for any reason) or has been marked as private.')
+        toastr.error('The video requested was not found. This error occurs when a video has been removed (for any reason) or has been marked as private.', 'Error adding video')
         break
       case 101:
-        alert('The owner of the requested video does not allow it to be played in embedded players.')
+        toastr.error('The owner of the requested video does not allow it to be played in embedded players.', 'Error adding video')
         break
       case 150:
-        alert('The owner of the requested video does not allow it to be played in embedded players.')
+        toastr.error('The owner of the requested video does not allow it to be played in embedded players.', 'Error adding video')
         break
       default:
-        alert('¯\\_(ツ)_/¯')
+        toastr.error('¯\\_(ツ)_/¯', 'Error adding video')
         break
     }
   }
@@ -136,7 +141,6 @@ class DOMController {
   handleUserLogin(event) {
     event.preventDefault()
     const username = event.target.username.value
-    debugger
     User.create({name: username})
     .then(() => {
       this.renderUsers()
@@ -145,7 +149,7 @@ class DOMController {
   }
 
   handlePlayerStateChange(event) {
-    if (event.data == 0) {
+    if (event.data == 0) { // video done
       const currentId = Playlist.currentVideo.id
       Playlist.nextVideo()
       Playlist.remove(currentId)
@@ -171,13 +175,14 @@ class DOMController {
       const id = event.target.closest('li').dataset.id      
       const playlistItem = Playlist.find(id)
       playlistItem.moveToTop() // move to top
+      if (Playlist.currentVideo) {
+        Playlist.remove(Playlist.currentVideo.id) // remove currently playing video
+      }
+      Playlist.currentVideo = Playlist.all[0] // change current video
       this.renderPlaylist() // re-render playlist
-      // change the video in the player
       if (!this.player) {
         this.initPlayer()
       } else {
-        Playlist.currentVideo.played = true // change current video
-        Playlist.currentVideo = Playlist.all[0]
         this.player.loadVideoById({ // play next video
           videoId: Playlist.currentVideo.song.youtube_id,
           suggestedQuality: 'large'
@@ -208,8 +213,9 @@ class DOMController {
   }
 
   handleSearchResultListClick(e) {
-    if (e.target.dataset.action === "add-to-playlist") {
-      YouTubeSearch.testVideoId = e.target.dataset.youtubeId
+    console.log(e.target)
+    if (e.target.dataset.action === "add-to-playlist" || e.target.closest('li').dataset.action === "add-to-playlist") {
+      YouTubeSearch.testVideoId = e.target.dataset.youtubeId || e.target.closest('li').dataset.youtubeId
       if (!this.hiddenPlayer) {
         this.initPlayer()
       } else {

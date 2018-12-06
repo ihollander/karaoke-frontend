@@ -8,12 +8,13 @@ class YouTubeSearch {
   }
 
   render() {
-    return `<div class="song-result">
-              <h4>${this.title}</h1>
-              <img src="${this.image}" />
-              <p><em>Channel: ${this.channel}</em></p>
-              <button data-action="add-to-playlist" data-youtube-id="${this.videoId}" class="btn-primary btn-small">Add</button>
-            </div>`
+    return `<li title="Add to playlist" data-action="add-to-playlist" data-youtube-id="${this.videoId}" class="song-result">
+              <div class="thumb" style="background-image: url('${this.image}')"></div>
+              <div class="info">
+                <div class="title">${this.title}</div>
+                <div class="channel">${this.channel}</div>
+              </div>
+            </li>`
   }
 
   static find(videoId) {

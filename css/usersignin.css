@@ -1,19 +1,15 @@
-
-.user-login {
-  /* position:center; */
-
+#user-login {
+  width: 300px;
   margin: 0 auto;
-  font-size: 1.1em;
-
-
+  font-size: 1.5em;
+  font-family: 'Orbitron';
 }
 
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    z-index: 1;
-    background-color: #000;
-  }
+#user-login input {
+  width: 100%;
+  text-align: center;
+}
+
+#user-login button {
+  width: 100%;
+}
