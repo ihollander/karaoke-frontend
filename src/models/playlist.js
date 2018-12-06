@@ -76,6 +76,11 @@ class Playlist {
       .catch(console.error)
   }
 
+  static removeLocal(id) {
+    const i = Playlist.all.findIndex(pl => pl.id == id)
+    Playlist.all.splice(i, 1)
+  }
+
   static remove(id) {
     const i = Playlist.all.findIndex(pl => pl.id == id)
     Playlist.all.splice(i, 1)

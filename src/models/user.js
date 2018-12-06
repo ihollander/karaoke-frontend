@@ -10,8 +10,21 @@ class User {
     return Playlist.all.filter(p => p.user_id == this.id).map(pl => pl.song)
   }
 
+
+  get playlists() {
+    return Playlist.all.filter(p => p.user_id == this.id)
+  }
+
   render() {
-    return `<li class="list-group-item">${this.name}</li>`
+    return `<li class="user" data-id="${this.id}">
+              <div class="info">
+                <div class="singer">${this.name}</div>
+              </div>
+              <div class="controls">
+                <span class="fa fa-trash" data-action="delete"></span>
+              </div>
+            </li>
+            `
   }
 
   renderSelectOption() {
@@ -41,11 +54,17 @@ class User {
       })
       .catch(console.error)
   }
-  
+
   static create(data) {
     return this.adapter.post(data)
       .then(json => new User(json))
       .catch(console.error)
+  }
+
+  static remove(id) {
+    const i = User.all.findIndex(user => user.id == id)
+    User.all.splice(i, 1)
+    User.adapter.delete(id)
   }
 
   static init() {
