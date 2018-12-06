@@ -52,6 +52,8 @@ class DOMController {
     if (Playlist.all.length) {
       this.nowPlaying.innerHTML = Playlist.renderNowPlaying()
       this.playlist.innerHTML = Playlist.render() // all but currently playing
+    } else {
+      this.nowPlaying.innerHTML = ""
     }
   }
 
