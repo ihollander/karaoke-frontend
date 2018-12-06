@@ -1,6 +1,11 @@
 .welcome-sign {
   margin: 100px auto;
-  background-image: url("../assets/concrete_wall.jpg");
+  /* background-image: url("../assets/concrete_wall.jpg"); */
+}
+
+#user-login input {
+  font-size: 30px;
+  background-color: #111;
 }
 
 .youtube {

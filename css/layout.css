@@ -10,6 +10,11 @@
   src: url("../assets/fonts/digital-7.ttf") format("woff");
 }
 
+@font-face {
+  font-family: Noble Gas;
+  src: url("../assets/fonts/noble-gas-lights.woff") format("woff");
+}
+
 html {
   height: 100%;
 }
@@ -50,27 +55,107 @@ a {
 	overflow: auto;
 }
 
+.input-addon {
+  display: flex;
+}
+
+.input-addon-field {
+  flex: 1;
+}
+
+/* .button {
+  cursor: pointer;
+  background-color: #000;
+  color: #A9FFDC;
+  border: 1px solid #4A7061;
+} */
+
+.button {
+  cursor: pointer;
+  margin-left: 5px;
+  text-shadow: 0 -2px 0 #4a8a65, 0 1px 1px #2c3631;
+  box-sizing: border-box;
+  color: #5ea97d;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 20px;
+  background: linear-gradient(to bottom, #18201b 0%, #212c25 26%, #18201b 100%);
+  border-radius: 5px;
+  border: 1px solid #232925;
+  transition: all 0.06s ease-out;
+  position: relative;
+}
+.button:visited {
+  color: #5ea97d;
+}
+
+.button:hover {
+  background: linear-gradient(to bottom, #131a16 0%, #19221d 26%, #24312a 100%);
+}
+
+.button:active {
+  top: 6px;
+  text-shadow: 0 -2px 0 #7fbb98, 0 1px 1px #c2dece, 0 0 4px white;
+  color: white;
+}
+.button:active:before {
+  top: 0;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.7), 0 3px 9px rgba(0, 0, 0, 0.2);
+}
+
+.button:before {
+  display: inline-block;
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  top: 6px;
+  border-radius: 5px;
+  height: 40px;
+  background: linear-gradient(to top, #1e5033 0%, #378357 6px);
+  transition: all 0.078s ease-out;
+  box-shadow: 0 1px 0 2px rgba(0, 0, 0, 0.3), 0 5px 2.4px rgba(0, 0, 0, 0.5), 0 10.8px 9px rgba(0, 0, 0, 0.2);
+}
+
+
+.label {
+  font-family: monospace;
+  text-transform: uppercase;
+  margin: 10px 0 1px;
+}
 
 input, select {
-  background-color: #333;
+  color: #A9FFDC;
+  font-size: 20px;
+  font-family: 'digital7', monospace;
+  background-color: #000;
   border: none;
   border-radius: 0;
   padding: 5px;
-  color: #fff;
   -webkit-appearance: none;
+  border: none;
 }
 
-input:focus {
-  outline: none;
+input, select, button, button:active {
+  outline-color: transparent;
+  outline-style: none;
+  outline: none !important;
+}
+
+input:active, select:active {
+  box-shadow:  
+  1px 1px 5px rgba(169,255,220,0.3), -1px -1px 5px rgba(169,255,220,0.3),
+  inset 1px 1px 1px rgba(169,255,220,0.3), inset -1px -1px 1px rgba(169,255,220,0.3);;
 }
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus, 
 input:-webkit-autofill:active  {
-  -webkit-text-fill-color: #fff !important;
-  -webkit-box-shadow: 0 0 0 30px #333 inset;
-  box-shadow: 0 0 0 30px #333 inset;
+  -webkit-text-fill-color: #A9FFDC !important;
+  -webkit-box-shadow: 0 0 0 30px #000 inset;
+  box-shadow: 0 0 0 30px #000 inset
 }
 
 ul {

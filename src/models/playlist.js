@@ -29,7 +29,7 @@ class Playlist {
                 <div class="singer">Sung By: ${this.user.name}</div>
               </div>
               <div class="controls">
-                <span class="fa fa-trash" data-action="delete"></span>
+                <span class="fa fa-eject" data-action="delete"></span>
                 <span class="fa fa-arrows-v" data-action="move"></span>
               </div>
             </li>`
@@ -39,7 +39,7 @@ class Playlist {
     let next = ''
     if (Playlist.allButCurrent.length) {
       next = `<div class="next">
-                <span class="fa fa-step-forward"></span>
+                <span class="fa fa-forward"></span>
               </div>`
     }
     return `<div class="now-playing">

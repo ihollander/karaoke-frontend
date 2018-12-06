@@ -1,50 +1,65 @@
+/* Forms */
+.sidebar-form {
+  margin: 0 auto;
+  border-bottom: 1px solid #4a7061;
+  padding: 10px 15px 20px;
+}
+
 /* Nav tab style overwriter */
 .nav-tabs {
-  border-bottom: none;
+  border-bottom: 1px solid #4a7061;
   font-size: 20px;
   padding: 20px 0;
   background-color: #111;
+  font-family: Noble Gas;
 }
 
 .nav-tabs .nav-link:hover {
   border: none;
 }
 
-.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
-  font-size: 1.5vw;
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link {
+  /* font-size: 1.5vw; */
   line-height: 1.5vw;
-  color: #4A7061;
-  text-shadow: 
-  -.1vw 0vw .25vw #4A7061, -.2vw 0vw .25vw #4A7061, -.4vw 0vw .25vw #4A7061, 
-  -.1vw 0vw .1vw #184D23, -.2vw 0vw .1vw #184D23, -.4vw 0vw .1vw #184D23,
-  -.1vw 0vw .8vw #184D23, -.2vw 0vw .8vw #184D23, -.4vw 0vw .8vw #184D23, .2vw 0vw .5vw #184D23,
-  -.1vw 0vw .5vw #184D23, -.2vw 0vw .5vw #184D23, -.4vw 0vw .5vw #184D23, 
-  -.1vw 0vw 2vw #184D23, -.2vw 0vw 2vw #184D23, -.4vw 0vw 2vw #184D23;
+  color: #4a7061;
+  text-shadow: -0.1vw 0vw 0.25vw #4a7061,
+    /* -0.2vw 0vw 0.25vw #4a7061, */ /* -0.4vw 0vw 0.25vw #4a7061,  */ -0.1vw 0vw
+      0.1vw #184d23,
+    /* -0.2vw 0vw 0.1vw #184d23,  */ /* -0.4vw 0vw 0.1vw #184d23,  */ -0.1vw 0vw
+      0.8vw #184d23,
+    -0.2vw 0vw 0.8vw #184d23, -0.4vw 0vw 0.8vw #184d23, 0.2vw 0vw 0.5vw #184d23,
+    -0.1vw 0vw 0.5vw #184d23, -0.2vw 0vw 0.5vw #184d23, -0.4vw 0vw 0.5vw #184d23,
+    -0.1vw 0vw 2vw #184d23, -0.2vw 0vw 2vw #184d23, -0.4vw 0vw 2vw #184d23;
 }
 
-.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
   background-color: transparent;
   border: none;
   border-radius: 0;
-  color: #A9FFDC;
-  text-shadow: 
-    -.1vw 0vw .25vw #A9FFDC, -.2vw 0vw .25vw #A9FFDC, -.4vw 0vw .25vw #A9FFDC, 
-    -.1vw 0vw .1vw #00CC2A, -.2vw 0vw .1vw #00CC2A, -.4vw 0vw .1vw #00CC2A,
-    -.1vw 0vw .8vw #00CC2A, -.2vw 0vw .8vw #00CC2A, -.4vw 0vw .8vw #00CC2A, .2vw 0vw .5vw #00CC2A,
-    -.1vw 0vw .5vw #00CC2A, -.2vw 0vw .5vw #00CC2A, -.4vw 0vw .5vw #00CC2A, 
-    -.1vw 0vw 4vw #16FA19, -.2vw 0vw 4vw #16FA19, -.4vw 0vw 4vw #16FA19;
+  color: #a9ffdc;
+  text-shadow: -0.1vw 0vw 0.25vw #a9ffdc,
+    /* -0.2vw 0vw 0.25vw #a9ffdc, */ /* -0.4vw 0vw 0.25vw #a9ffdc,  */ -0.1vw 0vw
+      0.1vw #00cc2a,
+    /* -0.2vw 0vw 0.1vw #00cc2a,  */ /* -0.4vw 0vw 0.1vw #00cc2a,  */ -0.1vw 0vw
+      0.8vw #00cc2a,
+    -0.2vw 0vw 0.8vw #00cc2a, -0.4vw 0vw 0.8vw #00cc2a, 0.2vw 0vw 0.5vw #00cc2a,
+    -0.1vw 0vw 0.5vw #00cc2a, -0.2vw 0vw 0.5vw #00cc2a, -0.4vw 0vw 0.5vw #00cc2a,
+    -0.1vw 0vw 4vw #16fa19, -0.2vw 0vw 4vw #16fa19, -0.4vw 0vw 4vw #16fa19;
 }
 
 /* General sidebar list styles */
 ul.sidebar-list {
-  padding: 20px 0;
+  padding: 0;
 }
 
 ul.sidebar-list li {
+  font-family: monospace;
   font-size: 15px;
   width: 100%;
-  padding: 5px;
-  border-bottom: 1px solid #bbb;
+  padding: 10px 5px;
+  border-bottom: 1px solid rgb(24, 36, 31);
 }
 
 ul.sidebar-list li:last-of-type {
@@ -63,7 +78,6 @@ ul.sidebar-list li div {
 ul.sidebar-list li.playlist {
   height: 100px;
 }
-
 
 ul.sidebar-list li.playlist .info {
   width: 80%;
@@ -119,17 +133,28 @@ ul.sidebar-list li.song-result .thumb::before {
   content: "\f067";
   font-family: FontAwesome;
   font-size: 28px;
-  color: rgba(255,255,255,0);
+  color: rgba(255, 255, 255, 0);
   text-shadow: 0 0 40px #000;
   text-align: center;
   display: block;
   position: absolute;
   margin: 10px 0;
-  transition: 0.3s
+  transition: 0.3s;
+}
+
+ul.sidebar-list li.song-result .thumb.loader::before {
+  position: relative;
+  width: 20px;
+  margin: 20px auto;
+  content: "\f110";
+  font-family: FontAwesome;
+  font-size: 20px;
+  display: block;
+  top: 0;
 }
 
 ul.sidebar-list li.song-result:hover .thumb::before {
-  color: rgba(255,255,255,1);
+  color: rgba(255, 255, 255, 1);
 }
 
 ul.sidebar-list li.song-result .info {
@@ -150,7 +175,35 @@ ul.sidebar-list li.song-result .info .channel {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  font-size: 13px;
+  /* font-size: 13px; */
   text-transform: uppercase;
   color: #bbb;
+}
+
+/* Singers List */
+ul.sidebar-list li.user {
+  height: 40px;
+}
+
+ul.sidebar-list li.user .info {
+  width: 80%;
+  margin-left: 10px;
+  float: left;
+  text-transform: uppercase;
+}
+
+ul.sidebar-list li.user .controls {
+  width: 10%;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+ul.sidebar-list li.user .controls span {
+  margin-left: 5px;
+  float: right;
+  transition: 0.3s;
+}
+
+ul.sidebar-list li.user .controls span:hover {
+  color: #fff;
 }

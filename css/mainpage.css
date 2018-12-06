@@ -11,6 +11,14 @@
     margin: 0 auto;
 }
 
+#main-content div.tv-text {
+    margin: 15px 30px;
+    text-align: left;
+    color: #A9FFDC;
+    font-size: 24px;
+    font-family: 'digital7', monospace;
+}
+
 .tv-container {
     text-align: center;
     color: white;
@@ -61,7 +69,7 @@
 }
 
 #tv-header .now-playing {
-    color: cyan;
+    color: #A9FFDC;
     width: 550px;
     float: left;
     font-family: 'digital7', monospace;
