@@ -28,41 +28,45 @@
     <div id="sidebar">
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-          <a class="nav-link active" id="search-tab" data-toggle="tab" href="#search">Song Book</a>
+          <a class="nav-link active" id="singers-tab" data-toggle="tab" href="#singers">Singers</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id="singers-tab" data-toggle="tab" href="#singers">Singers</a>
+          <a class="nav-link" id="search-tab" data-toggle="tab" href="#search">Songs</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" data-toggle="tab" href="#song">Playlist</a>
         </li>
       </ul>
       <div class="tab-content">
-        <div class="tab-pane fade show active" id="search" role="tabpanel" aria-labelledby="home-tab">
-          <form id="search-form">
-            <div>
-              <label style="width:23%;" for="user">Singer: </label>
-              <select style="width:75%;" name="user"></select>
-            </div>
-            <div>
-              <input style="width:75%" type="text" name="search" placeholder="Search song or artist"/>
-              <input style="width:23%" class="btn-primary" type="submit" value="Search" />
-            </div>
-          </form>
-          <!-- Song list -->
-          <ul class="sidebar-list" id="song-list"></ul>
-        </div>
         <!-- Singers Tab -->
-        <div class="tab-pane fade" id="singers" role="tabpanel" aria-labelledby="profile-tab" >
-          <form id="new-user-form">
-            <div>
-              <input style="width:75%" type="text" name="name" placeholder="Add a singer..."/>
-              <input style="width:23%" class="btn-primary" type="submit" value="Add" />
+        <div class="tab-pane show active" id="singers" role="tabpanel" aria-labelledby="profile-tab" >
+          <form id="new-user-form" class="sidebar-form">
+            <label class="label" for="user">Add a singer</label>
+            <div class="input-addon">
+              <input autocomplete="off" class="input-addon-field" style="width:80%" type="text" name="name" placeholder="Name" />
+              <button class="input-addon-item button" style="width:18%" type="submit">
+                <span class="fa fa-play"></span>
+              </button>
             </div>
           </form>
           <ul class="sidebar-list" id="user-list"></ul>
         </div>
-        <!-- Songs Tab -->
+        <!-- Song search tab -->
+        <div class="tab-pane fade" id="search" role="tabpanel" aria-labelledby="home-tab">
+          <form id="search-form" class="sidebar-form">
+            <label class="label" for="user">Select Singer</label>
+            <select style="width:100%;" name="user"></select>
+            <label class="label" for="user">Search Song or Artist</label>
+            <div class="input-addon">
+              <input autocomplete="off" class="input-addon-field" style="width:80%" type="text" name="search" placeholder="Search"/>
+              <button class="input-addon-item button" style="width:18%" type="submit">
+                <span class="fa fa-play"></span>
+              </button>
+            </div>
+          </form>
+          <ul class="sidebar-list" id="song-list"></ul>
+        </div>
+        <!-- Playlist Tab -->
         <div class="tab-pane fade" id="song" role="tabpanel" aria-labelledby="messages-tab" >
           <ul class="sidebar-list" id="playlist"></ul>
         </div>
@@ -71,8 +75,10 @@
     <div id="main-content">
       <div class="tv-container">
         <div id="player">
-          <div class="text-centered">
-            Search your favorite song and sing sing sing along~
+          <div class="tv-text">
+            1. Add singers <br>
+            2. Search your favorite songs<br>
+            3. Sing Sing Sing along<br>
           </div>
         </div>
       </div>

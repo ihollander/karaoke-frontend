@@ -21,7 +21,7 @@ class User {
                 <div class="singer">${this.name}</div>
               </div>
               <div class="controls">
-                <span class="fa fa-trash" data-action="delete"></span>
+                <span class="fa fa-eject" data-action="delete"></span>
               </div>
             </li>
             `
