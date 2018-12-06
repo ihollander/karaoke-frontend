@@ -1,5 +1,17 @@
+#main-content {
+    margin-top: 100px;
+	display: inline-block;
+	vertical-align: top;
+	height: 100%;
+	width: 70%;
+	overflow: auto;
+}
+
+#main-content div {
+    margin: 0 auto;
+}
+
 .tv-container {
-    margin: 100px auto;
     text-align: center;
     color: white;
     background-image: url("../assets/tv-background.jpg");
@@ -12,9 +24,64 @@
     position: relative;
 }
 
-.text-centered {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+#tv-header {
+    height: 100px;
+    width: 600px;
+    display: block;
+    font-size: 25px;
+    padding: 20px 0;
 }
+
+#tv-header::after {
+    clear: both;
+}
+
+#tv-header .next {
+    width: 50px;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    color: #4A7061;
+    text-shadow: 
+    /*-.1vw 0vw .25vw #4A7061, -.2vw 0vw .25vw #4A7061, -.4vw 0vw .25vw #4A7061, 
+    -.1vw 0vw .1vw #184D23, -.2vw 0vw .1vw #184D23, -.4vw 0vw .1vw #184D23,
+    -.1vw 0vw .8vw #184D23, -.2vw 0vw .8vw #184D23, -.4vw 0vw .8vw #184D23, .2vw 0vw .5vw #184D23,
+    -.1vw 0vw .5vw #184D23, -.2vw 0vw .5vw #184D23, -.4vw 0vw .5vw #184D23,  */
+    -.1vw 0vw 2vw #184D23, -.2vw 0vw 2vw #184D23, -.4vw 0vw 2vw #184D23;
+}
+
+#tv-header .next:hover {
+    color: #A9FFDC;
+    text-shadow: 
+      -.1vw 0vw .25vw #A9FFDC, -.2vw 0vw .25vw #A9FFDC, -.4vw 0vw .25vw #A9FFDC, 
+      -.1vw 0vw .1vw #00CC2A, -.2vw 0vw .1vw #00CC2A, -.4vw 0vw .1vw #00CC2A,
+      -.1vw 0vw .8vw #00CC2A, -.2vw 0vw .8vw #00CC2A, -.4vw 0vw .8vw #00CC2A, .2vw 0vw .5vw #00CC2A,
+      -.1vw 0vw .5vw #00CC2A, -.2vw 0vw .5vw #00CC2A, -.4vw 0vw .5vw #00CC2A, 
+      -.1vw 0vw 4vw #16FA19, -.2vw 0vw 4vw #16FA19, -.4vw 0vw 4vw #16FA19;
+}
+
+#tv-header .now-playing {
+    color: cyan;
+    width: 550px;
+    float: left;
+    font-family: 'digital7', monospace;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.7);
+    padding-left: 15px;
+  }
+  
+  #tv-header .now-playing .marquee {
+    white-space: nowrap;
+    animation: rightToLeft 15s linear infinite;
+    animation-fill-mode: backwards;
+    animation-delay: 0s;
+  }
+  
+  @keyframes rightToLeft {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }

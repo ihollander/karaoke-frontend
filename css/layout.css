@@ -5,6 +5,11 @@
   src: url("../assets/fonts/las-enter.woff") format("woff");
 }
 
+@font-face {
+  font-family: digital7;
+  src: url("../assets/fonts/digital-7.ttf") format("woff");
+}
+
 html {
   height: 100%;
 }
@@ -29,6 +34,13 @@ a {
   background-color: #000;
 }
 
+.text-centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 #sidebar {
   background-color: rgba(30, 30, 30, 0.7);
   display: inline-block;
@@ -38,13 +50,6 @@ a {
 	overflow: auto;
 }
 
-#main-content {
-	display: inline-block;
-	vertical-align: top;
-	height: 100%;
-	width: 70%;
-	overflow: auto;
-}
 
 input, select {
   background-color: #333;
@@ -65,6 +70,7 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active  {
   -webkit-text-fill-color: #fff !important;
   -webkit-box-shadow: 0 0 0 30px #333 inset;
+  box-shadow: 0 0 0 30px #333 inset;
 }
 
 ul {
