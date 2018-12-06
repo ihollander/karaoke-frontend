@@ -171,6 +171,7 @@ class DOMController {
     $(event.target).find('li').each(function(index,element) {
       const playlist = Playlist.find(element.dataset.id)
       playlist.updateSort(index + 1)
+      Playlist.sort()
     })
   }
 
