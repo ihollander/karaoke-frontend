@@ -22,11 +22,11 @@ html {
 body {
   background-color: #000;
   height: 100%;
-  color: #999;
+  color: #f1f1f1;
 }
 
 a {
-  color: #999;
+  color: #f1f1f1;
 }
 
 .overlay {
@@ -37,6 +37,16 @@ a {
   right: 0;
   z-index: 1;
   background-color: #000;
+  opacity: 1;
+  transition: opacity 1s ease-in-out;
+   -moz-transition: opacity 1s ease-in-out;
+   -webkit-transition: opacity 1s ease-in-out;
+}
+
+.overlay.hidden {
+  opacity: 0;
+  transition: visibility 0s 1s, opacity 1s linear;
+  visibility: hidden;
 }
 
 .text-centered {
@@ -63,61 +73,36 @@ a {
   flex: 1;
 }
 
-/* .button {
-  cursor: pointer;
-  background-color: #000;
-  color: #A9FFDC;
-  border: 1px solid #4A7061;
-} */
-
 .button {
+  /* width: 50px; */
+  /* display: inline-block; */
+  background-color: #000;
+  border: none;
+  text-align: center;
   cursor: pointer;
-  margin-left: 5px;
-  text-shadow: 0 -2px 0 #4a8a65, 0 1px 1px #2c3631;
-  box-sizing: border-box;
-  color: #5ea97d;
-  height: 40px;
-  line-height: 40px;
-  padding: 0 20px;
-  background: linear-gradient(to bottom, #18201b 0%, #212c25 26%, #18201b 100%);
-  border-radius: 5px;
-  border: 1px solid #232925;
-  transition: all 0.06s ease-out;
-  position: relative;
-}
-.button:visited {
-  color: #5ea97d;
+  color: #4A7061;
+  text-shadow: 
+    -.1vw 0vw 2vw #184D23, 
+    -.2vw 0vw 2vw #184D23, 
+    -.4vw 0vw 2vw #184D23;
 }
 
 .button:hover {
-  background: linear-gradient(to bottom, #131a16 0%, #19221d 26%, #24312a 100%);
+  color: #A9FFDC;
+  text-shadow: 
+  -0.1vw 0vw 0.25vw #a9ffdc,
+  -0.1vw 0vw 0.1vw #00cc2a,
+  -0.1vw 0vw 0.8vw #00cc2a,
+  -0.2vw 0vw 0.8vw #00cc2a, 
+  -0.4vw 0vw 0.8vw #00cc2a, 
+  0.2vw 0vw 0.5vw #00cc2a,
+  -0.1vw 0vw 0.5vw #00cc2a, 
+  -0.2vw 0vw 0.5vw #00cc2a, 
+  -0.4vw 0vw 0.5vw #00cc2a,
+  -0.1vw 0vw 4vw #16fa19, 
+  -0.2vw 0vw 4vw #16fa19, 
+  -0.4vw 0vw 4vw #16fa19;
 }
-
-.button:active {
-  top: 6px;
-  text-shadow: 0 -2px 0 #7fbb98, 0 1px 1px #c2dece, 0 0 4px white;
-  color: white;
-}
-.button:active:before {
-  top: 0;
-  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.7), 0 3px 9px rgba(0, 0, 0, 0.2);
-}
-
-.button:before {
-  display: inline-block;
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  z-index: -1;
-  top: 6px;
-  border-radius: 5px;
-  height: 40px;
-  background: linear-gradient(to top, #1e5033 0%, #378357 6px);
-  transition: all 0.078s ease-out;
-  box-shadow: 0 1px 0 2px rgba(0, 0, 0, 0.3), 0 5px 2.4px rgba(0, 0, 0, 0.5), 0 10.8px 9px rgba(0, 0, 0, 0.2);
-}
-
 
 .label {
   font-family: monospace;

@@ -43,7 +43,9 @@ document.addEventListener('DOMContentLoaded', e => {
   // popups
   toastr.options = {
     "positionClass": "toast-top-center",
-    "timeOut": "2500"
+    // "timeOut": "2500",
+    "timeOut": 0,
+    "extendedTimeOut": 0
   }
 
   //create the room when page is loaded
@@ -53,7 +55,7 @@ document.addEventListener('DOMContentLoaded', e => {
       User.init()
         .then(() => {
           if (User.all.length) {
-            controller.overlay.style.display = 'none'
+            controller.overlay.classList.add('hidden')
           }
           controller.renderUsers()
           Playlist.init()
