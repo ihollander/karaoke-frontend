@@ -1,130 +1,97 @@
 <!DOCTYPE html>
-
 <html>
-
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Karaoke Room</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-    crossorigin="anonymous">
-
-  <link href="https://fonts.googleapis.com/css?family=Allura|Damion|Kumar+One+Outline|Monoton" rel="stylesheet">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
-    crossorigin="anonymous">
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="css/mainpage.css">
-  <link rel="stylesheet" href="css/welcomelogo.css">
-  <link rel="stylesheet" href="css/usersignin.css">
-
-</head>
-
-<body>
-  <div class="overlay">
-    <div id="container">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Karaoke Room</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/mainpage.css" />
+    <link rel="stylesheet" href="css/welcomelogo.css" />
+    <link rel="stylesheet" href="css/usersignin.css" />
+    <link rel="stylesheet" href="css/sidebar-list.css" />
+  </head>
+  <body>
+    <div class="overlay">
       <div class="welcome-sign">
         <div class="youtube">Youtube</div>
         <div class="ktv">KTV</div>
         <div class="palace">Palace</div>
       </div>
-      <div class="user-login" style="width:400px;">
-        <form id="user-login">
-          <input type="text" placeholder="Enter your name" name="username" value="">
-          <button class="fab fa-youtube fa-lg" type="submit" name="submit"></button>
-        </form>
-      </div>
+      <form id="user-login">
+        <input autocomplete="off" type="text" placeholder="Enter your name" name="username" />
+      </form>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-3">
-      <div class="main"></div>
-      <h5>Karoke Room<h5>
-          <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-              <a class="nav-link active" id="search-tab" data-toggle="tab" href="#search" role="tab" aria-controls="search"
-                aria-selected="true">Search</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" id="singers-tab" data-toggle="tab" href="#singers" role="tab" aria-controls="singers"
-                aria-selected="false">Singers</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#song" role="tab" aria-controls="song" aria-selected="false">Song</a>
-            </li>
-          </ul>
-          <!-- SEARCH BAR -->
-          <div class="tab-content">
-            <div class="tab-pane fade show active" id="search" role="tabpanel" aria-labelledby="home-tab">
-              <form id="search-form">
-                <div class="input-group">
-                  <input class="form-control" type="text" name="search" placeholder="Search song or artist">
-                </div>
-                <div class="input-group">
-                  <select class="form-control" name="user"></select>
-                </div>
-                <div class="input-group">
-                  <input class="btn-primary" type="submit" value="Search">
-                </div>
-              </form>
-
-              <!-- Song list -->
-              <div id="song-list"> </div>
+    <div id="sidebar">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="search-tab" data-toggle="tab" href="#search">Song Book</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="singers-tab" data-toggle="tab" href="#singers">Singers</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#song">Playlist</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="search" role="tabpanel" aria-labelledby="home-tab">
+          <form id="search-form">
+            <div>
+              <label style="width:23%;" for="user">Singer: </label>
+              <select style="width:75%;" name="user"></select>
             </div>
-            <!-- Singers Tab -->
-            <div class="tab-pane fade" id="singers" role="tabpanel" aria-labelledby="profile-tab">
-              <form id="new-user-form">
-                <div class="input-group">
-                  <input class="form-control" type="text" name="name" placeholder="Add a singer...">
-                  <div class="input-group-append">
-                    <input type="submit" value="Add" class="btn-primary">
-                  </div>
-                </div>
-              </form>
-
-              <ul class="list-group" id="user-list">
-              </ul>
+            <div>
+              <input style="width:75%" type="text" name="search" placeholder="Search song or artist"/>
+              <input style="width:23%" class="btn-primary" type="submit" value="Search" />
             </div>
-            <!-- Songs Tab -->
-            <div class="tab-pane fade" id="song" role="tabpanel" aria-labelledby="messages-tab">
-              <ul class="sortable" id="playlist"></ul>
+          </form>
+          <!-- Song list -->
+          <ul class="sidebar-list" id="song-list"></ul>
+        </div>
+        <!-- Singers Tab -->
+        <div class="tab-pane fade" id="singers" role="tabpanel" aria-labelledby="profile-tab" >
+          <form id="new-user-form">
+            <div>
+              <input style="width:75%" type="text" name="name" placeholder="Add a singer..."/>
+              <input style="width:23%" class="btn-primary" type="submit" value="Add" />
             </div>
-
-          </div>
-
-    </div>
-    <div class="col-sm-9">
-      <div class="tv-container">
-        <div id="player">
-          <div class="text-centered">Search your favorite song and sing sing sing along~</div>
+          </form>
+          <ul class="sidebar-list" id="user-list"></ul>
+        </div>
+        <!-- Songs Tab -->
+        <div class="tab-pane fade" id="song" role="tabpanel" aria-labelledby="messages-tab" >
+          <ul class="sidebar-list" id="playlist"></ul>
         </div>
       </div>
     </div>
-  </div>
-  <div id="hidden-player" style="display:none;"></div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <div id="main-content">
+      <div class="tv-container">
+        <div id="player">
+          <div class="text-centered">
+            Search your favorite song and sing sing sing along~
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="hidden-player" style="display:none;"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
-  <script src="src/config/environment.js"></script>
-  <script src="src/adapters/railsAdapter.js"></script>
-  <script src="src/adapters/youtubeSearchAdapter.js"></script>
-  <script src="src/models/playlist.js"></script>
-  <script src="src/models/room.js"></script>
-  <script src="src/models/song.js"></script>
-  <script src="src/models/user.js"></script>
-  <script src="src/models/youtubeSearch.js"></script>
-  <script src="src/controllers/domController.js"></script>
-  <script src="src/app.js"></script>
-
-
-</body>
-
+    <script src="src/config/environment.js"></script>
+    <script src="src/adapters/railsAdapter.js"></script>
+    <script src="src/adapters/youtubeSearchAdapter.js"></script>
+    <script src="src/models/playlist.js"></script>
+    <script src="src/models/room.js"></script>
+    <script src="src/models/song.js"></script>
+    <script src="src/models/user.js"></script>
+    <script src="src/models/youtubeSearch.js"></script>
+    <script src="src/controllers/domController.js"></script>
+    <script src="src/app.js"></script>
+  </body>
 </html>

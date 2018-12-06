@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css?family=Allura|Damion|Kumar+One+Outline|Monoton|Raleway|Orbitron");
+
+@font-face {
+  font-family: lasenter;
+  src: url("../assets/fonts/las-enter.woff") format("woff");
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  background-color: #000;
+  height: 100%;
+  color: #999;
+}
+
+a {
+  color: #999;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+  background-color: #000;
+}
+
+#sidebar {
+  background-color: rgba(30, 30, 30, 0.7);
+  display: inline-block;
+	vertical-align: top;
+	height: 100%;
+	width: 27%;
+	overflow: auto;
+}
+
+#main-content {
+	display: inline-block;
+	vertical-align: top;
+	height: 100%;
+	width: 70%;
+	overflow: auto;
+}
+
+input, select {
+  background-color: #333;
+  border: none;
+  border-radius: 0;
+  padding: 5px;
+  color: #fff;
+  -webkit-appearance: none;
+}
+
+input:focus {
+  outline: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+  -webkit-text-fill-color: #fff !important;
+  -webkit-box-shadow: 0 0 0 30px #333 inset;
+}
+
+ul {
+  list-style-type: none;
+}

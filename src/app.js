@@ -38,13 +38,23 @@ document.addEventListener('DOMContentLoaded', e => {
   const currentUrl = new URL(window.location.href)
   const roomId = currentUrl.searchParams.get("id")
   const controller = new DOMController()
+  controller.initJQueryElements()
   
+  // popups
+  toastr.options = {
+    "positionClass": "toast-top-center",
+    "timeOut": "2500"
+  }
+
   //create the room when page is loaded
   Room.findOrCreate(roomId) // findOrCreate to test with sample data
     .then(() => {
       window.history.pushState("", "", `${location.origin}${location.pathname}?id=${Room.current.id}`)
       User.init()
         .then(() => {
+          if (User.all.length) {
+            controller.overlay.style.display = 'none'
+          }
           controller.renderUsers()
           Playlist.init()
             .then(() => {
@@ -56,7 +66,5 @@ document.addEventListener('DOMContentLoaded', e => {
       
     })
 
-  $(function() {
-    controller.initJQueryElements()
-  })
+  
 })

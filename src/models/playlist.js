@@ -23,14 +23,18 @@ class Playlist {
   }
 
   render() {
-    return `<li class="list-group-item" data-id="${this.id}">
-              <span>Song: ${this.song.title} | User: ${this.user.name}</span>
-              <button data-action="play" class="btn-primary">
-                <span class="fa fa-play"></span>
-              </button>
-              <button data-action="delete" class="btn-danger">
-                <span class="fa fa-times"></span>
-              </button>
+    return `<li class="playlist" data-id="${this.id}">
+              <div class="play-button">
+                <button data-action="play"></button>
+              </div>
+              <div class="info">
+                <div class="song">${this.song.title}</div>
+                <div class="singer">Sung By: ${this.user.name}</div>
+              </div>
+              <div class="controls">
+                <span class="fa fa-trash" data-action="delete"></span>
+                <span class="fa fa-arrows-v" data-action="move"></span>
+              </div>
             </li>`
   }
 
@@ -55,7 +59,7 @@ class Playlist {
   }
 
   static render() {
-    return this.sort().map(pl => pl.render()).join('')
+    return this.all.map(pl => pl.render()).join('')
   }
 
   static find(id) {
@@ -91,9 +95,6 @@ class Playlist {
     return this.adapter.getAll()
       .then(json => {
         json.forEach(playlistObj => new Playlist(playlistObj))
-      })
-      .then(() => {
-        // this.
       })
       .catch(console.error)
   }
