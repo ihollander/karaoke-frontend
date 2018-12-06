@@ -20,6 +20,7 @@ class DOMController {
     this.newUserForm.addEventListener('submit', this.handleUserFormSubmit.bind(this))
     this.searchResultList.addEventListener('click', this.handleSearchResultListClick.bind(this))
     this.playlist.addEventListener('click', this.handlePlaylistClick.bind(this))
+    this.userList.addEventListener('click', this.handleUserRemoveClick.bind(this))
   }
 
   // INITIALIZERS //
@@ -198,6 +199,19 @@ class DOMController {
         })
       }
     }
+  }
+
+
+  handleUserRemoveClick(event){
+    event.target.dataset.action === "delete" || event.target.parentNode.dataset.action === "delete"
+    const id = event.target.closest('li').dataset.id
+    const user = User.find(id)
+    user.playlists.forEach(p => {
+      Playlist.removeLocal(p.id)
+    })
+    User.remove(id)
+    this.renderUsers()
+    this.renderPlaylist()
   }
 
   handleSearchFormSubmit(e) {
