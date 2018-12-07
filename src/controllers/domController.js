@@ -7,6 +7,7 @@ class DOMController {
     this.playlist = document.getElementById("playlist")
     this.overlay = document.querySelector(".overlay")
     this.nowPlaying = document.querySelector("#tv-header")
+    this.tvControls = document.querySelector("#tv-controls")
     this.userLogin = document.querySelector("#user-login")
     this.userLogin.username.focus()
 
@@ -15,7 +16,7 @@ class DOMController {
 
     this.alertTimeout
 
-    this.nowPlaying.addEventListener("click", this.handleNextButtonClick.bind(this))
+    this.tvControls.addEventListener("click", this.handleTVControlClick.bind(this))
     this.userLogin.addEventListener("submit", this.handleUserLogin.bind(this))
     this.searchForm.addEventListener("submit", this.handleSearchFormSubmit.bind(this))
     this.newUserForm.addEventListener("submit", this.handleUserFormSubmit.bind(this))
@@ -74,6 +75,11 @@ class DOMController {
   // EVENT HANDLERS //
   handleAPIReady() {
     this.player = new YT.Player("player", {
+      playerVars: {
+        'controls': 0,
+        'modestbranding': 1,
+        'iv_load_policy': 3
+      },
       events: {
         onReady: this.handlePlayerReady.bind(this),
         onStateChange: this.handlePlayerStateChange.bind(this)
@@ -91,6 +97,7 @@ class DOMController {
   }
 
   handlePlayerReady(event) {
+    this.playerIframe = document.querySelector('#player')
     if (Playlist.currentVideo) {
       this.player.loadVideoById({
         videoId: Playlist.currentVideo.song.youtube_id
@@ -211,8 +218,8 @@ class DOMController {
     }
   }
 
-  handleNextButtonClick(event) {
-    if (event.target.dataAction === "next" || event.target.className === "fa fa-forward") {
+  handleTVControlClick(event) {
+    if (event.target.dataset.action === "next") {
       const currentId = Playlist.currentVideo.id
       Playlist.nextVideo()
       Playlist.remove(currentId)
@@ -223,6 +230,35 @@ class DOMController {
           videoId: Playlist.currentVideo.song.youtube_id,
           suggestedQuality: "large"
         });
+      }
+    } else if (event.target.dataset.action === "pause") {
+      this.player.pauseVideo()
+      this.nowPlaying.innerHTML = `<div class="now-playing">
+                                    <div class="loading">Paused</div>
+                                  </div>`
+    } else if (event.target.dataset.action === "play") {
+      if (this.player.getPlayerState() == 2) {
+        this.player.playVideo()
+        this.renderPlaylist()
+      } else if (Playlist.currentVideo) {
+        this.player.loadVideoById({
+          videoId: Playlist.currentVideo.song.youtube_id,
+          suggestedQuality: "large"
+        });
+      }
+    } else if (event.target.dataset.action === "shuffle") {
+      this.renderAlert("Shuffling... ", "loading")
+      Playlist.shuffle()
+      Playlist.currentVideo = Playlist.all[0]
+      this.player.loadVideoById({
+        videoId: Playlist.currentVideo.song.youtube_id,
+        suggestedQuality: "large"
+      });
+      this.renderPlaylist()
+    } else if (event.target.dataset.action === "fullscreen") {
+      let requestFullScreen = this.playerIframe.requestFullScreen || this.playerIframe.mozRequestFullScreen || this.playerIframe.webkitRequestFullScreen;
+      if (requestFullScreen) {
+        requestFullScreen.bind(this.playerIframe)()
       }
     }
   }

@@ -45,16 +45,9 @@ class Playlist {
   }
 
   static renderNowPlaying() {
-    let next = ''
-    if (Playlist.allButCurrent.length) {
-      next = `<div class="next">
-                <span class="fa fa-forward"></span>
-              </div>`
-    }
     return `<div class="now-playing">
               <div class="marquee">Now Playing ${Playlist.currentVideo.song.title} - Sung By ${Playlist.currentVideo.user.name}</div>
-            </div>
-            ${next}`
+            </div>`
   }
 
   get song() {
@@ -83,6 +76,16 @@ class Playlist {
 
   static get allUnplayed() {
     return this.all.filter(pl => !pl.played)
+  }
+
+  static shuffle() {
+    let rand, swap
+    for (let i = Playlist.all.length - 1; i > 0; i--) {
+      rand = Math.floor(Math.random() * (i + 1));
+      swap = Playlist.all[i];
+      Playlist.all[i] = Playlist.all[rand];
+      Playlist.all[rand] = swap;
+    }
   }
 
   static render() {
