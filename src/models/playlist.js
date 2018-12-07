@@ -1,10 +1,10 @@
 class Playlist {
-  constructor({ id, user_id, song_id, sort }) {
+  constructor({ id, user_id, song_id, sort, played }) {
     this.id = id
     this.user_id = user_id
     this.song_id = song_id
     this.sort = sort
-    this.played = false
+    this.played = played
     Playlist.all.push(this)
   }
 
@@ -20,6 +20,11 @@ class Playlist {
   updateSort(sortOrder) {
     this.sort = sortOrder
     Playlist.adapter.patch(this.id, { sort: this.sort })
+  }
+
+  markPlayed() {
+    this.played = true
+    Playlist.adapter.patch(this.id, { played: true })
   }
 
   render() {
@@ -73,7 +78,11 @@ class Playlist {
   }
 
   static get allButCurrent() {
-    return this.all.filter(pl => pl !== Playlist.currentVideo)
+    return this.allUnplayed.filter(pl => pl !== Playlist.currentVideo)
+  }
+
+  static get allUnplayed() {
+    return this.all.filter(pl => !pl.played)
   }
 
   static render() {
@@ -107,10 +116,10 @@ class Playlist {
 
   static nextVideo() {
     if (!Playlist.currentVideo) {
-      Playlist.currentVideo = Playlist.all[0]
+      Playlist.currentVideo = Playlist.allUnplayed[0]
     } else {
-      const i = Playlist.all.findIndex(pl => pl.id == Playlist.currentVideo.id)
-      Playlist.currentVideo = Playlist.all[i + 1]
+      const i = Playlist.allUnplayed.findIndex(pl => pl.id == Playlist.currentVideo.id)
+      Playlist.currentVideo = Playlist.allUnplayed[i + 1]
     }
   }
 

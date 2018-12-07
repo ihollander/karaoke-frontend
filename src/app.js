@@ -49,14 +49,14 @@ document.addEventListener('DOMContentLoaded', e => {
           if (User.all.length) {
             controller.overlay.classList.add('hidden')
           }
-          controller.renderUsers()
           Playlist.init()
             .then(() => {
               if (Playlist.all.length) {
                 controller.initPlayer()
                 Playlist.sort()
-                Playlist.currentVideo = Playlist.all[0]
+                Playlist.currentVideo = Playlist.allUnplayed[0]
                 controller.renderPlaylist()
+                controller.renderUsers()
               }
             })
         })

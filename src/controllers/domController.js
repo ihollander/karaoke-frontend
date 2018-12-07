@@ -180,10 +180,11 @@ class DOMController {
   handlePlayerStateChange(event) {
     if (event.data == 0) {
       // video done
-      const currentId = Playlist.currentVideo.id
+      Playlist.currentVideo.markPlayed()
       Playlist.nextVideo()
-      Playlist.remove(currentId)
+      // Playlist.remove(currentId)
       this.renderPlaylist()
+      this.renderUsers()
       if (Playlist.currentVideo) {
         this.player.loadVideoById({
           // play next video

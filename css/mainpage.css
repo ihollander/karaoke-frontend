@@ -21,13 +21,13 @@
 .tv-container {
     text-align: center;
     color: white;
-    background-image: url("../assets/tv-background.jpg");
-    height: 390px;
-    width: 700px;
+    background-image: url(../assets/tv-background.jpg);
+    height: 387px;
+    width: 680px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    padding: 15px 0;
+    padding: 13px 0;
     position: relative;
 }
 
