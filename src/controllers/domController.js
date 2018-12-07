@@ -1,5 +1,6 @@
 class DOMController {
   constructor() {
+    // DOM elements
     this.searchResultList = document.getElementById("song-list")
     this.userList = document.getElementById("user-list")
     this.searchForm = document.getElementById("search-form")
@@ -7,16 +8,18 @@ class DOMController {
     this.playlist = document.getElementById("playlist")
     this.overlay = document.querySelector(".overlay")
     this.nowPlaying = document.querySelector("#tv-header")
+    this.tvControls = document.querySelector("#tv-controls")
     this.userLogin = document.querySelector("#user-login")
-    this.userLogin.username.focus()
     this.tambourine = document.getElementById('sound-effect-buttons')
     this.clap = document.getElementById('sound-effect-buttons')
     this.airhorn = document.getElementById('sound-effect-buttons')
 
-    this.hiddenPlayer // hacky workaround for checking if a video is embeddable...
+    this.hiddenPlayer // Youtube hidden player reference
     this.player // Youtube Player reference
+    this.alertTimeout // used for setTimeout/clearTimeout
 
-    this.nowPlaying.addEventListener("click", this.handleNextButtonClick.bind(this))
+    // Event listeners
+    this.tvControls.addEventListener("click", this.handleTVControlClick.bind(this))
     this.userLogin.addEventListener("submit", this.handleUserLogin.bind(this))
     this.searchForm.addEventListener("submit", this.handleSearchFormSubmit.bind(this))
     this.newUserForm.addEventListener("submit", this.handleUserFormSubmit.bind(this))
@@ -44,7 +47,23 @@ class DOMController {
     const firstScriptTag = document.getElementsByTagName("script")[0]
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
 
-    window.onYouTubeIframeAPIReady = this.handleAPIReady.bind(this) // called when YouTube API script loads
+    window.onYouTubeIframeAPIReady = this.handleYoutubeAPIReady.bind(this) // called when YouTube API script loads
+  }
+  
+  onDataLoaded() { // call after populating all API data
+    window.history.pushState("", "", `${location.origin}${location.pathname}?id=${Room.current.id}`)
+    if (User.all.length) {
+      this.overlay.classList.add('hidden')
+    } else {
+      this.userLogin.username.focus()
+    }
+    if (Playlist.allUnplayed.length) {
+      Playlist.sort()
+      Playlist.currentVideo = Playlist.allUnplayed[0]
+      this.initPlayer()
+    }
+    this.renderPlaylist()
+    this.renderUsers()
   }
 
   // RENDER METHODS //
@@ -55,7 +74,7 @@ class DOMController {
   }
 
   renderPlaylist() {
-    if (Playlist.all.length) {
+    if (Playlist.allUnplayed.length) {
       this.nowPlaying.innerHTML = Playlist.renderNowPlaying()
       this.playlist.innerHTML = Playlist.render() // all but currently playing
       this.tambourine.innerHTML = Playlist.renderSoundEffectButtons()
@@ -64,15 +83,31 @@ class DOMController {
     }
   }
 
+  renderAlert(message, messageClass) {
+    if (this.alertTimeout) clearTimeout(this.alertTimeout);
+    this.nowPlaying.innerHTML = `<div class="now-playing"><div class="${messageClass}">${message}</div></div>`
+    this.alertTimeout = setTimeout(() => { this.renderPlaylist() }, 3000)
+  }
+
+  playCurrentVideo() {
+    this.player.loadVideoById({
+      videoId: Playlist.currentVideo.song.youtube_id
+    })
+  }
 
   // EVENT HANDLERS //
-  handleAPIReady() {
+  handleYoutubeAPIReady() {
     this.player = new YT.Player("player", {
+      playerVars: {
+        'controls': 0,
+        'modestbranding': 1,
+        'iv_load_policy': 3
+      },
       events: {
         onReady: this.handlePlayerReady.bind(this),
         onStateChange: this.handlePlayerStateChange.bind(this)
       }
-    });
+    })
     this.hiddenPlayer = new YT.Player("hidden-player", {
       height: 0,
       width: 0,
@@ -81,14 +116,13 @@ class DOMController {
         onStateChange: this.handleHiddenPlayerStateChange.bind(this),
         onError: this.handleHiddenPlayerError.bind(this)
       }
-    });
+    })
   }
 
   handlePlayerReady(event) {
+    this.playerIframe = document.querySelector('#player')
     if (Playlist.currentVideo) {
-      this.player.loadVideoById({
-        videoId: Playlist.currentVideo.song.youtube_id
-      });
+      this.playCurrentVideo()
     }
   }
 
@@ -96,83 +130,61 @@ class DOMController {
     if (YouTubeSearch.testVideoId) {
       this.hiddenPlayer.loadVideoById({
         videoId: YouTubeSearch.testVideoId
-      });
+      })
     }
   }
 
-  // this is hacky, pls fix
   // wait for hidden video to play before adding it to the song list
   handleHiddenPlayerStateChange(event) {
     if (event.data == 1) {
       const videoData = event.target.getVideoData()
-      const videoId = videoData.video_id
-      const searchLi = this.searchResultList.querySelector(`[data-youtube-id="${videoId}"]`)
+      const searchLi = this.searchResultList.querySelector(`[data-youtube-id="${videoData.video_id}"]`)
       searchLi.querySelector('.thumb').className = "thumb"
 
       this.hiddenPlayer.stopVideo()
       const songData = {
         title: videoData.title,
         youtube_id: videoData.video_id
-      };
+      }
       Song.create(songData).then(song => {
         Playlist.create({
           user_id: this.searchForm.user.value,
           song_id: song.id
         }).then(() => {
-          toastr.success(`${songData.title} added`, "Success!")
+          const alertMessage = songData.title.length > 30 ? songData.title.substring(0, 27) + '...' : songData.title
+          this.renderAlert(`${alertMessage} added to playlist`, "success")
           if (!Playlist.currentVideo) {
-            Playlist.sort();
-            Playlist.currentVideo = Playlist.all[0]
-            this.player.loadVideoById({
-              // play next video
-              videoId: Playlist.currentVideo.song.youtube_id,
-              suggestedQuality: "large"
-            });
+            Playlist.sort()
+            Playlist.currentVideo = Playlist.allUnplayed[0]
+            this.playCurrentVideo()
           }
-          this.renderPlaylist()
-        });
-      });
+        })
+      })
     }
   }
 
   handleHiddenPlayerError(event) {
-    const videoData = event.target.getVideoData()
-    const videoId = videoData.video_id
+    const videoId = event.target.getVideoData().video_id
     const searchLi = this.searchResultList.querySelector(`[data-youtube-id="${videoId}"]`)
     searchLi.querySelector('.thumb').className = "thumb"
     switch (event.data) {
       case 2:
-        toastr.error(
-          "The request contains an invalid parameter value. For example, this error occurs if you specify a video ID that does not have 11 characters, or if the video ID contains invalid characters, such as exclamation points or asterisks.",
-          "Error adding video"
-        );
+        this.renderAlert("Error: invalid parameter value", "error");
         break;
       case 5:
-        toastr.error(
-          "The requested content cannot be played in an HTML5 player or another error related to the HTML5 player has occurred.",
-          "Error adding video"
-        );
+        this.renderAlert("Error: HTML5 player error", "error");
         break;
       case 100:
-        toastr.error(
-          "The video requested was not found. This error occurs when a video has been removed (for any reason) or has been marked as private.",
-          "Error adding video"
-        );
+        this.renderAlert("Error: video not found", "error");
         break;
       case 101:
-        toastr.error(
-          "The owner of the requested video does not allow it to be played in embedded players.",
-          "Error adding video"
-        );
+        this.renderAlert("Error: video not embeddable", "error");
         break;
       case 150:
-        toastr.error(
-          "The owner of the requested video does not allow it to be played in embedded players.",
-          "Error adding video"
-        );
+        this.renderAlert("Error: video not embeddable", "error");
         break;
       default:
-        toastr.error("¯\\_(ツ)_/¯", "Error adding video");
+        this.renderAlert("¯\\_(ツ)_/¯", "error");
         break;
     }
   }
@@ -187,28 +199,23 @@ class DOMController {
   }
 
   handlePlayerStateChange(event) {
-    if (event.data == 0) {
-      // video done
-      const currentId = Playlist.currentVideo.id
+    if (event.data == 0) { // video done
+      Playlist.currentVideo.markPlayed()
       Playlist.nextVideo()
-      Playlist.remove(currentId)
       this.renderPlaylist()
+      this.renderUsers()
       if (Playlist.currentVideo) {
-        this.player.loadVideoById({
-          // play next video
-          videoId: Playlist.currentVideo.song.youtube_id,
-          suggestedQuality: "large"
-        });
+        this.playCurrentVideo()
       }
     }
   }
 
   handlePlaylistSorted(event, ui) {
     $(event.target).find("li").each(function(index, element) {
-        const playlist = Playlist.find(element.dataset.id)
-        playlist.updateSort(index + 1)
-        Playlist.sort()
-      });
+      const playlist = Playlist.find(element.dataset.id)
+      playlist.updateSort(index + 1)
+      Playlist.sort()
+    })
   }
 
   handlePlaylistClick(event) {
@@ -219,18 +226,55 @@ class DOMController {
     }
   }
 
-  handleNextButtonClick(event) {
-    if (event.target.dataAction === "next" || event.target.className === "fa fa-step-forward") {
-      const currentId = Playlist.currentVideo.id
-      Playlist.nextVideo()
-      Playlist.remove(currentId)
-      this.renderPlaylist()
-      if (Playlist.currentVideo) {
-        this.player.loadVideoById({
-          // play next video
-          videoId: Playlist.currentVideo.song.youtube_id,
-          suggestedQuality: "large"
-        });
+  handleTVControlClick(event) {
+    if (event.target.dataset.action) {
+      switch(event.target.dataset.action) {
+        case "next":
+          const currentId = Playlist.currentVideo.id
+          Playlist.nextVideo()
+          Playlist.remove(currentId)
+          this.renderPlaylist()
+          if (Playlist.currentVideo) {
+            this.playCurrentVideo()
+          }
+          break
+        
+        case "pause":
+          if (this.player.getPlayerState() == 1) {
+            this.player.pauseVideo()
+            this.nowPlaying.innerHTML = `<div class="now-playing"><div class="loading">Paused</div></div>`
+          }
+          break
+
+        case "play":
+          if (this.player.getPlayerState() == 2) {
+            this.player.playVideo()
+            this.renderPlaylist()
+          } else if (Playlist.currentVideo) {
+            this.playCurrentVideo()
+          }
+          break
+
+        case "shuffle":
+          this.renderAlert("Shuffling... ", "loading")
+          Playlist.shuffle()
+          Playlist.allUnplayed.forEach((pl, index) => {
+            pl.updateSort(index + 1)
+          })
+          Playlist.currentVideo = Playlist.allUnplayed[0]
+          this.playCurrentVideo()
+          this.renderPlaylist()
+          break
+
+        case "fullscreen":
+          let requestFullScreen = this.playerIframe.requestFullScreen || this.playerIframe.mozRequestFullScreen || this.playerIframe.webkitRequestFullScreen
+          if (requestFullScreen) {
+            requestFullScreen.bind(this.playerIframe)()
+          }
+          break
+
+        default: 
+          break
       }
     }
   }
@@ -261,7 +305,7 @@ class DOMController {
       const user = User.find(id)
       user.playlists.forEach(p => {
         Playlist.removeLocal(p.id)
-      });
+      })
       User.remove(id)
       this.renderUsers()
       this.renderPlaylist()
@@ -272,7 +316,7 @@ class DOMController {
     e.preventDefault()
     YouTubeSearch.search(e.target.search.value).then(() => {
       this.searchResultList.innerHTML = YouTubeSearch.renderResults()
-    });
+    })
   }
 
   handleUserFormSubmit(e) {
@@ -280,11 +324,12 @@ class DOMController {
     User.create({ name: e.target.name.value }).then(() => {
       this.renderUsers()
       e.target.reset()
-    });
+    })
   }
 
   handleSearchResultListClick(e) {
     if (e.target.dataset.action === "add-to-playlist" || e.target.closest("li").dataset.action === "add-to-playlist") {
+      this.renderAlert('Checking video...', 'loading')
       YouTubeSearch.testVideoId = e.target.dataset.youtubeId || e.target.closest("li").dataset.youtubeId
       if (e.target.className === "thumb") {
         e.target.className = "thumb loader"
@@ -296,7 +341,7 @@ class DOMController {
       } else {
         this.hiddenPlayer.loadVideoById({
           videoId: YouTubeSearch.testVideoId
-        });
+        })
       }
     }
   }
