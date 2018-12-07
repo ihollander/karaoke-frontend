@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Karaoke Room</title>
+    <title>Karaoke KTV</title>
+     <link rel="shortcut icon" type="image/png" href="./assets/favicon_g.png">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -12,6 +13,8 @@
     <link rel="stylesheet" href="css/welcomelogo.css" />
     <link rel="stylesheet" href="css/usersignin.css" />
     <link rel="stylesheet" href="css/sidebar-list.css" />
+    <link rel="stylesheet" href="css/sound_effect.css" />
+
   </head>
   <body>
     <div class="overlay">
@@ -84,6 +87,7 @@
       </div>
       <div id="tv-header">
       </div>
+      <div id="sound-effect-buttons" style="height: 40px; width: 100px; margin: 0 auto">
       <div id="tv-controls">
         <div class="control-button"><span data-action="pause" class="fa fa-pause"></span></div>
         <div class="control-button"><span data-action="play" class="fa fa-play"></span></div>
@@ -93,6 +97,19 @@
       </div>
     </div>
     <div id="hidden-player" style="display:none;"></div>
+    <!-- audio tracks -->
+    <div id="audio-div">
+      <audio id="tambourine">
+        <source src="./assets/audio/tambourine.mp3" type="audio/mpeg">
+      </audio>
+      <audio id="clap">
+        <source src="./assets/audio/applause.mp3" type="audio/mpeg">
+      </audio>
+      <audio id="airhorn">
+        <source src="./assets/audio/airhorn.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>

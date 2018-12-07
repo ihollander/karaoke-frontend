@@ -50,6 +50,15 @@ class Playlist {
             </div>`
   }
 
+static renderSoundEffectButtons() {
+  return `<div class="tambourine">
+          <button class="select-button green" id="tambourine" type="button"></button>
+          <button class="select-button blue" id="clap" type="button"></button>
+          <button class="select-button" id="airhorn" type="button"></button>
+          </div>
+  `
+}
+
   get song() {
     return Song.all.find(s => s.id == this.song_id)
   }
