@@ -10,7 +10,6 @@ class User {
     return Playlist.all.filter(p => p.user_id == this.id).map(pl => pl.song)
   }
 
-
   get playlists() {
     return Playlist.all.filter(p => p.user_id == this.id)
   }
@@ -31,8 +30,7 @@ class User {
                   <span class="fa fa-eject"></span>
                 </button>
               </div>
-            </li>
-            `
+            </li>`
   }
 
   renderSelectOption() {
