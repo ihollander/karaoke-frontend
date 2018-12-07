@@ -18,7 +18,7 @@ class YouTubeSearchAPIAdapter {
       part: 'snippet',
       type: 'video',
       maxResults: 50,
-      key: apiKeys.youtube,
+      key: youtube,
       regionCode: 'US',
       safeSearch: 'strict',
       videoSyndicated: true
