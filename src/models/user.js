@@ -10,23 +10,27 @@ class User {
     return Playlist.all.filter(p => p.user_id == this.id).map(pl => pl.song)
   }
 
-
   get playlists() {
     return Playlist.all.filter(p => p.user_id == this.id)
   }
 
+  get playedSongs() {
+    return this.playlists.filter(pl => pl.played)
+  }
+
   render() {
+    const stars = this.playedSongs.map(pl => '<span class="fa fa-microphone"></span>').join('')
     return `<li class="user" data-id="${this.id}">
               <div class="info">
                 <div class="singer">${this.name}</div>
+                <div class="counter">${stars}</div>
               </div>
               <div class="controls">
                 <button class="button" data-action="delete" style="background-color:transparent;">
                   <span class="fa fa-eject"></span>
                 </button>
               </div>
-            </li>
-            `
+            </li>`
   }
 
   renderSelectOption() {
