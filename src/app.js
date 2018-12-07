@@ -39,11 +39,11 @@ document.addEventListener('DOMContentLoaded', e => {
   const roomId = currentUrl.searchParams.get("id")
   const controller = new DOMController()
   controller.initJQueryElements()
-  
+
   // popups
   toastr.options = {
     "positionClass": "toast-top-center",
-    // "timeOut": "2500",
+    "timeOut": "2500",
     "timeOut": 0,
     "extendedTimeOut": 0
   }
@@ -69,8 +69,8 @@ document.addEventListener('DOMContentLoaded', e => {
             })
         })
       Song.init()
-      
+
     })
 
-  
+
 })
