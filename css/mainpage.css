@@ -2,7 +2,6 @@
     margin-top: 100px;
 	display: inline-block;
 	vertical-align: top;
-	height: 100%;
 	width: 70%;
 	overflow: auto;
 }
@@ -74,15 +73,35 @@
     float: left;
     font-family: 'digital7', monospace;
     overflow: hidden;
+    white-space: nowrap;
     background: rgba(0, 0, 0, 0.7);
     padding-left: 15px;
   }
+
+  #tv-header .now-playing .loading {
+    animation: blinker 1s linear infinite;
+  }
+
+  #tv-header .now-playing .error {
+    color: red;
+    animation: blinker 1s linear infinite;
+  }
+  
+  #tv-header .now-playing .success {
+    color: #16FA19;
+    animation: blinker 1s linear infinite;
+  }
   
   #tv-header .now-playing .marquee {
-    white-space: nowrap;
     animation: rightToLeft 15s linear infinite;
     animation-fill-mode: backwards;
     animation-delay: 0s;
+  }
+
+  @keyframes blinker {
+    50% {
+      opacity: 0.5;
+    }
   }
   
   @keyframes rightToLeft {

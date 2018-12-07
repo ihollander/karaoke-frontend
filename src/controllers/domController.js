@@ -13,6 +13,8 @@ class DOMController {
     this.hiddenPlayer // hacky workaround for checking if a video is embeddable...
     this.player // Youtube Player reference
 
+    this.alertTimeout
+
     this.nowPlaying.addEventListener("click", this.handleNextButtonClick.bind(this))
     this.userLogin.addEventListener("submit", this.handleUserLogin.bind(this))
     this.searchForm.addEventListener("submit", this.handleSearchFormSubmit.bind(this))
@@ -55,6 +57,18 @@ class DOMController {
     } else {
       this.nowPlaying.innerHTML = ""
     }
+  }
+
+  renderAlert(message, messageClass) {
+    if (this.alertTimeout) {
+      clearTimeout(this.alertTimeout)
+    }
+    this.nowPlaying.innerHTML = `<div class="now-playing">
+                                    <div class="${messageClass}">${message}</div>
+                                  </div>`
+    this.alertTimeout = setTimeout(() => {
+      this.renderPlaylist()
+    }, 3000)
   }
 
   // EVENT HANDLERS //
@@ -111,7 +125,8 @@ class DOMController {
           user_id: this.searchForm.user.value,
           song_id: song.id
         }).then(() => {
-          toastr.success(`${songData.title} added`, "Success!")
+          const alertMessage = songData.title.length > 30 ? songData.title.substring(0, 27) + '...' : songData.title
+          this.renderAlert(`${alertMessage} added to playlist`, "success")
           if (!Playlist.currentVideo) {
             Playlist.sort();
             Playlist.currentVideo = Playlist.all[0]
@@ -121,7 +136,6 @@ class DOMController {
               suggestedQuality: "large"
             });
           }
-          this.renderPlaylist()
         });
       });
     }
@@ -134,37 +148,22 @@ class DOMController {
     searchLi.querySelector('.thumb').className = "thumb"
     switch (event.data) {
       case 2:
-        toastr.error(
-          "The request contains an invalid parameter value. For example, this error occurs if you specify a video ID that does not have 11 characters, or if the video ID contains invalid characters, such as exclamation points or asterisks.",
-          "Error adding video"
-        );
+        this.renderAlert("Error: invalid parameter value", "error");
         break;
       case 5:
-        toastr.error(
-          "The requested content cannot be played in an HTML5 player or another error related to the HTML5 player has occurred.",
-          "Error adding video"
-        );
+        this.renderAlert("Error: HTML5 player error", "error");
         break;
       case 100:
-        toastr.error(
-          "The video requested was not found. This error occurs when a video has been removed (for any reason) or has been marked as private.",
-          "Error adding video"
-        );
+        this.renderAlert("Error: video not found", "error");
         break;
       case 101:
-        toastr.error(
-          "The owner of the requested video does not allow it to be played in embedded players.",
-          "Error adding video"
-        );
+        this.renderAlert("Error: video not embeddable", "error");
         break;
       case 150:
-        toastr.error(
-          "The owner of the requested video does not allow it to be played in embedded players.",
-          "Error adding video"
-        );
+        this.renderAlert("Error: video not embeddable", "error");
         break;
       default:
-        toastr.error("¯\\_(ツ)_/¯", "Error adding video");
+        this.renderAlert("¯\\_(ツ)_/¯", "error");
         break;
     }
   }
@@ -212,7 +211,7 @@ class DOMController {
   }
 
   handleNextButtonClick(event) {
-    if (event.target.dataAction === "next" || event.target.className === "fa fa-step-forward") {
+    if (event.target.dataAction === "next" || event.target.className === "fa fa-forward") {
       const currentId = Playlist.currentVideo.id
       Playlist.nextVideo()
       Playlist.remove(currentId)
@@ -257,6 +256,7 @@ class DOMController {
 
   handleSearchResultListClick(e) {
     if (e.target.dataset.action === "add-to-playlist" || e.target.closest("li").dataset.action === "add-to-playlist") {
+      this.renderAlert('Checking video...', 'loading')
       YouTubeSearch.testVideoId = e.target.dataset.youtubeId || e.target.closest("li").dataset.youtubeId
       if (e.target.className === "thumb") {
         e.target.className = "thumb loader"

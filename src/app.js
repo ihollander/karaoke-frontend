@@ -39,14 +39,6 @@ document.addEventListener('DOMContentLoaded', e => {
   const roomId = currentUrl.searchParams.get("id")
   const controller = new DOMController()
   controller.initJQueryElements()
-  
-  // popups
-  toastr.options = {
-    "positionClass": "toast-top-center",
-    // "timeOut": "2500",
-    "timeOut": 0,
-    "extendedTimeOut": 0
-  }
 
   //create the room when page is loaded
   Room.findOrCreate(roomId) // findOrCreate to test with sample data

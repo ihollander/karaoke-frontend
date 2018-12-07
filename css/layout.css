@@ -56,15 +56,6 @@ a {
   transform: translate(-50%, -50%);
 }
 
-#sidebar {
-  background-color: rgba(30, 30, 30, 0.7);
-  display: inline-block;
-	vertical-align: top;
-	height: 100%;
-	width: 27%;
-	overflow: auto;
-}
-
 .input-addon {
   display: flex;
 }
