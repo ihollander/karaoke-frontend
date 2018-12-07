@@ -30,4 +30,4 @@ class Room {
 }
 
 Room.current // current room for the page
-Room.adapter = new RailsAPIAdapter('http://localhost:3000/api/v1/rooms')
+Room.adapter = new RailsAPIAdapter('https://youtube-ktv-palace.herokuapp.com/api/v1/rooms')

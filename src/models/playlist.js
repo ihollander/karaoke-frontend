@@ -145,7 +145,7 @@ static renderSoundEffectButtons() {
   }
 
   static init() {
-    Playlist.adapter = new RailsAPIAdapter(`http://localhost:3000/api/v1/rooms/${Room.current.id}/playlists`)
+    Playlist.adapter = new RailsAPIAdapter(`https://youtube-ktv-palace.herokuapp.com/api/v1/rooms/${Room.current.id}/playlists`)
     return this.populateFromAPI()
   }
 }

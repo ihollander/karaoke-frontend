@@ -74,7 +74,7 @@ class User {
   }
 
   static init() {
-    User.adapter = new RailsAPIAdapter(`http://localhost:3000/api/v1/rooms/${Room.current.id}/users`)
+    User.adapter = new RailsAPIAdapter(`https://youtube-ktv-palace.herokuapp.com/api/v1/rooms/${Room.current.id}/users`)
     return this.populateFromAPI()
   }
 }
