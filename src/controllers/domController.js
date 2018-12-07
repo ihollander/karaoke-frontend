@@ -10,9 +10,8 @@ class DOMController {
     this.nowPlaying = document.querySelector("#tv-header")
     this.tvControls = document.querySelector("#tv-controls")
     this.userLogin = document.querySelector("#user-login")
-    this.tambourine = document.getElementById('sound-effect-buttons')
-    this.clap = document.getElementById('sound-effect-buttons')
-    this.airhorn = document.getElementById('sound-effect-buttons')
+    this.sfx = document.getElementById('sound-effect-buttons')
+    this.audioDiv = document.getElementById("audio-div")
 
     this.hiddenPlayer // Youtube hidden player reference
     this.player // Youtube Player reference
@@ -26,9 +25,7 @@ class DOMController {
     this.searchResultList.addEventListener("click", this.handleSearchResultListClick.bind(this))
     this.playlist.addEventListener("click", this.handlePlaylistClick.bind(this))
     this.userList.addEventListener("click", this.handleUserRemoveClick.bind(this))
-    this.tambourine.addEventListener('click', this.handleTambourineClick.bind(this))
-    this.clap.addEventListener('click', this.handleClapClick.bind(this))
-    this.airhorn.addEventListener('click', this.handleAirHornClick.bind(this))
+    this.sfx.addEventListener('click', this.handleSoundButtonClick.bind(this))
   }
 
   // INITIALIZERS //
@@ -77,7 +74,7 @@ class DOMController {
     if (Playlist.allUnplayed.length) {
       this.nowPlaying.innerHTML = Playlist.renderNowPlaying()
       this.playlist.innerHTML = Playlist.render() // all but currently playing
-      this.tambourine.innerHTML = Playlist.renderSoundEffectButtons()
+      this.sfx.innerHTML = Playlist.renderSoundEffectButtons()
     } else {
       this.nowPlaying.innerHTML = ""
     }
@@ -99,7 +96,7 @@ class DOMController {
   handleYoutubeAPIReady() {
     this.player = new YT.Player("player", {
       playerVars: {
-        'controls': 0,
+        // 'controls': 0,
         'modestbranding': 1,
         'iv_load_policy': 3
       },
@@ -279,25 +276,15 @@ class DOMController {
     }
   }
 
-  handleTambourineClick(event) {
-    let tambourineBtn = event.target.id
-    let audioDiv = document.getElementById("audio-div")
-    audioDiv.querySelector(`#${tambourineBtn}`).play()
+  handleSoundButtonClick(event) {
+    if (event.target.dataset.sound) {
+      const audioPlayer = this.audioDiv.querySelector(`#${event.target.dataset.sound}`)
+      if (audioPlayer) {
+        audioPlayer.currentTime = 0
+        audioPlayer.play()
+      }
+    }
   }
-
-  handleClapClick(event) {
-    let clapBtn = event.target.id
-    let clapDiv = document.getElementById("audio-div")
-    clapDiv.querySelector(`#${clapBtn}`).play()
-  }
-
-  handleAirHornClick(event) {
-    let airhornBtn = event.target.id
-    let airHornDiv = document.getElementById("audio-div")
-    airHornDiv.querySelector(`#${airhornBtn}`).currentTime = 0
-    airHornDiv.querySelector(`#${airhornBtn}`).play()
-  }
-
 
   handleUserRemoveClick(event) {
     if (event.target.dataset.action === "delete" || event.target.parentNode.dataset.action === "delete") {

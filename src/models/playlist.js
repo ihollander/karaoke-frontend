@@ -51,12 +51,13 @@ class Playlist {
   }
 
 static renderSoundEffectButtons() {
-  return `<div class="tambourine">
-          <button class="select-button green" id="tambourine" type="button"></button>
-          <button class="select-button blue" id="clap" type="button"></button>
-          <button class="select-button" id="airhorn" type="button"></button>
-          </div>
-  `
+  return `<div id="sfx">
+            <button class="select-button green" data-sound="tambourine" type="button"></button>
+            <button class="select-button blue" data-sound="clap" type="button"></button>
+            <button class="select-button red" data-sound="airhorn" type="button"></button>
+            <button class="select-button orange" data-sound="yeet" type="button"></button>
+            <button class="select-button magenta" data-sound="bloop" type="button"></button>
+          </div>`
 }
 
   get song() {

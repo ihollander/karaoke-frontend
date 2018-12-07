@@ -1,11 +1,17 @@
+#main-content #sound-effect-buttons {
+    display: inline-block;
+    vertical-align: top
+}
+
 .select-button {
     background: #133DEA;
-    border: 2px solid #fff;
+    border: 2px solid rgb(121, 121, 121);
     border-radius: 100%;
     cursor: pointer;
-    display: inline-block;
+    display: block;
     height: 40px;
     width: 40px;
+    margin: 25px 10px;
 }
 
 .select-button.blue {
@@ -13,14 +19,41 @@
   box-shadow: 0 -2px 0 3px #1134A5 inset, 0 5px 5px rgba(3, 25, 41, 0.17), 0 5px rgba(255, 255, 255, 0.25) inset;
 }
 .select-button.blue:active {
-    box-shadow: 0 -2px 0 3px #133DEA inset, 0 5px 5px rgba(3, 25, 41, 0.17), 0 5px #133DEA inset;}
+    box-shadow: 0 -2px 0 3px #133DEA inset, 0 5px 5px rgba(3, 25, 41, 0.17), 0 5px #133DEA inset;
 }
 
 .select-button.green {
-    background: #68F75C;
-    box-shadow: 0 -2px 0 3px #24A511 inset, 0 5px 5px rgba(3, 25, 41, 0.17), 0 5px rgba(255, 255, 255, 0.25) inset;
+    background: rgb(72, 187, 61);
+    box-shadow: 0 -2px 0 3px rgb(33, 143, 16) inset, 0 5px 5px rgba(3, 41, 8, 0.17), 0 5px rgba(255, 255, 255, 0.25) inset;
 }
 
 .select-button.green:active {
-    box-shadow: 0 -2px 0 3px #4EAA44 inset, 0 5px 5px rgba(3, 25, 41, 0.17), 0 5px #4EAA44 inset;}
+    box-shadow: 0 -2px 0 3px rgb(72, 187, 61) inset, 0 5px 5px rgba(3, 41, 8, 0.17), 0 5px rgb(72, 187, 61) inset;
+}
+
+.select-button.red {
+    background: rgb(230, 59, 59);
+    box-shadow: 0 -2px 0 3px rgb(179, 46, 46) inset, 0 5px 5px rgba(41, 3, 3, 0.17), 0 5px rgba(255, 255, 255, 0.25) inset;
+}
+
+.select-button.red:active {
+    box-shadow: 0 -2px 0 3px rgb(230, 59, 59) inset, 0 5px 5px rgba(41, 3, 3, 0.17), 0 5px rgb(230, 59, 59) inset;
+}
+
+.select-button.orange {
+    background: rgb(230, 150, 59);
+    box-shadow: 0 -2px 0 3px rgb(179, 99, 46) inset, 0 5px 5px rgba(41, 20, 3, 0.17), 0 5px rgba(255, 255, 255, 0.25) inset;
+}
+
+.select-button.orange:active {
+    box-shadow: 0 -2px 0 3px rgb(230, 150, 59) inset, 0 5px 5px rgba(41, 20, 3, 0.17), 0 5px rgb(230, 150, 59) inset;
+}
+
+.select-button.magenta {
+    background: rgb(230, 59, 221);
+    box-shadow: 0 -2px 0 3px rgb(179, 46, 157) inset, 0 5px 5px rgba(41, 3, 36, 0.17), 0 5px rgba(255, 255, 255, 0.25) inset;
+}
+
+.select-button.magenta:active {
+    box-shadow: 0 -2px 0 3px rgb(230, 59, 221) inset, 0 5px 5px rgba(41, 3, 36, 0.17), 0 5px rgb(230, 59, 221) inset;
 }
