@@ -46,7 +46,7 @@ class DOMController {
 
     window.onYouTubeIframeAPIReady = this.handleYoutubeAPIReady.bind(this) // called when YouTube API script loads
   }
-  
+
   onDataLoaded() { // call after populating all API data
     window.history.pushState("", "", `${location.origin}${location.pathname}?id=${Room.current.id}`)
     if (User.all.length) {
@@ -133,7 +133,8 @@ class DOMController {
 
   // wait for hidden video to play before adding it to the song list
   handleHiddenPlayerStateChange(event) {
-    if (event.data == 1) {
+    debugger
+    if (event.data === 1) {
       const videoData = event.target.getVideoData()
       const searchLi = this.searchResultList.querySelector(`[data-youtube-id="${videoData.video_id}"]`)
       searchLi.querySelector('.thumb').className = "thumb"
@@ -157,6 +158,8 @@ class DOMController {
           }
         })
       })
+    } else {
+      this.handleHiddenPlayerError(event)
     }
   }
 
@@ -165,6 +168,9 @@ class DOMController {
     const searchLi = this.searchResultList.querySelector(`[data-youtube-id="${videoId}"]`)
     searchLi.querySelector('.thumb').className = "thumb"
     switch (event.data) {
+      case -1:
+        this.renderAlert("Error: video unavailable", "error");
+        break;
       case 2:
         this.renderAlert("Error: invalid parameter value", "error");
         break;
@@ -208,7 +214,7 @@ class DOMController {
   }
 
   handlePlaylistSorted(event, ui) {
-    $(event.target).find("li").each(function(index, element) {
+    $(event.target).find("li").each(function (index, element) {
       const playlist = Playlist.find(element.dataset.id)
       playlist.updateSort(index + 1)
       Playlist.sort()
@@ -216,7 +222,7 @@ class DOMController {
   }
 
   handlePlaylistClick(event) {
-    if (event.target.dataset.action === "delete" || event.target.parentNode.dataset.action === "delete" ) {
+    if (event.target.dataset.action === "delete" || event.target.parentNode.dataset.action === "delete") {
       const id = event.target.closest("li").dataset.id
       Playlist.remove(id)
       this.renderPlaylist()
@@ -225,7 +231,7 @@ class DOMController {
 
   handleTVControlClick(event) {
     if (event.target.dataset.action) {
-      switch(event.target.dataset.action) {
+      switch (event.target.dataset.action) {
         case "next":
           const currentId = Playlist.currentVideo.id
           Playlist.nextVideo()
@@ -235,7 +241,7 @@ class DOMController {
             this.playCurrentVideo()
           }
           break
-        
+
         case "pause":
           if (this.player.getPlayerState() == 1) {
             this.player.pauseVideo()
@@ -270,7 +276,7 @@ class DOMController {
           }
           break
 
-        default: 
+        default:
           break
       }
     }
@@ -327,10 +333,10 @@ class DOMController {
       } else {
         e.target.closest("li").querySelector('.thumb').className = "thumb loader"
       }
-      if (!this.hiddenPlayer) {
+      if (!this.player) {
         this.initPlayer()
       } else {
-        this.hiddenPlayer.loadVideoById({
+        this.player.loadVideoById({
           videoId: YouTubeSearch.testVideoId
         })
       }

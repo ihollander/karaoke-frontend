@@ -1,6 +1,6 @@
 // helper function to serialize simple javascript object to querystring
 // do as module?
-const serializeQueryString = function(params) {
+const serializeQueryString = function (params) {
   const queryString = []
   for (const key in params) {
     queryString.push(`${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
@@ -18,7 +18,8 @@ class YouTubeSearchAPIAdapter {
       part: 'snippet',
       type: 'video',
       maxResults: 50,
-      key: apiKeys.youtube,
+      // key: apiKeys.youtube,
+      key: 'AIzaSyDIxfd8w2EE_vqb8a6iCDcp9uQAaMityq4',
       regionCode: 'US',
       safeSearch: 'strict',
       videoSyndicated: true
@@ -26,7 +27,7 @@ class YouTubeSearchAPIAdapter {
   }
 
   search(q) {
-    const searchParams = Object.assign({q: `${q} Karaoke -carpool`}, this.defaultParams)
+    const searchParams = Object.assign({ q: `${q} Karaoke -carpool` }, this.defaultParams)
     const queryParams = serializeQueryString(searchParams)
     return fetch(`${this.baseUrl}?${queryParams}`)
       .then(r => {
